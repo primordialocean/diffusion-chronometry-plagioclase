@@ -5,6 +5,7 @@
 !.gitattributes
 !README.md
 !config.json
+!smoothing.py
 !preprocessing.py
 !modelling.py
 !plot.py
