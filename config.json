@@ -1,0 +1,11 @@
+{
+    "T (C)": 1100,
+    "melt SiO2 (wt%)": 63,
+    "melt Mg (ppm)": 1929,
+    "Element": "Mg",
+    "Diffusion coefficient": "VanOrman2014",
+    "Partition coefficient": "Mutch2022",
+    "Time unit": "year",
+    "Max time": 0.01,
+    "Boundary condition": "Dirichlet"
+}
