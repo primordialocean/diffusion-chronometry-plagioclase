@@ -15,7 +15,9 @@ class ModelDiffusion(PhysicalConstant):
     def __init__(self):
         super().__init__()
     
-    def diffusion_model(self, dx, dt, nx, nt, result_arr, X_An, D, A_i, boundary):
+    def diffusion_model(
+        self, dx, dt, nx, nt, u_n, X_An, T_K, D, A_i, boundary
+        ):
         """Function for diffusion modelling of plagioclase trace elements.
         Args:
             initial (ndarray): The initial composition of the plagioclase
@@ -31,7 +33,11 @@ class ModelDiffusion(PhysicalConstant):
             ndarray: The results of diffusion modelling.
         """
         
-        for n in tqdm(range(0, nt), total=nt):
+        result_arr = np.zeros((nt, nx))
+        result_arr[0, :] = u_n
+        u = np.zeros(nx)
+
+        for n in tqdm(range(0, nt-1)):
             # assume infinite reservoir based
             u[0] = u_n[0]
             
@@ -82,9 +88,9 @@ class ModelDiffusion(PhysicalConstant):
                         )
                     )
             
-            result_arr[n, :] = u
+            result_arr[n+1, :] = u
             u_n[:] = u
-        return modelled
+        return result_arr
 
 def main():
     # load pysical constants
@@ -107,17 +113,22 @@ def main():
     x_m = df["Distance (m)"].to_numpy()
     X_An = df["XAn"].to_numpy()
     D = df["D_Mg"].to_numpy()
+    u_n = df["Initial Mg (ppm)"].to_numpy()
     dx = x_m[1] - x_m[0]
     nx = x_m.shape[0]
-    dt = 0.1 * (dx ** 2) / np.max(D)
+    dt = 0.05 * (dx ** 2) / np.max(D)
     nt = int(maxtime_s / dt)
-    modelled = np.zeros((nt, nx))
-    u = np.zeros(nx)
     A_i = -26100
-
-    
+    timesteps = range(0, nt)
     diffmodel = ModelDiffusion()
-    result = diffmodel.diffusion_model(dx, dt, nx, nt, modelled, X_An, D, A_i, boundary)
-    result.to_csv("result.csv")
+    result_arr = diffmodel.diffusion_model(
+        dx, dt, nx, nt, u_n, X_An, T_K, D, A_i, boundary
+        )
+    result_df = pd.DataFrame(
+        result_arr.T, columns=timesteps
+        )
+    result_df.insert(0, "Distance (um)", x_m * 1e6)
+    result_df.to_csv("result.csv", index=False)
+
 if __name__ == "__main__":
     main()
