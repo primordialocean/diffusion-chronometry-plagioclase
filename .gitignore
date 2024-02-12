@@ -1,0 +1,10 @@
+*
+!*/
+!/samples/.gitkeep
+!.gitignore
+!.gitattributes
+!README.md
+!config.json
+!preprocessing.py
+!modelling.py
+!plot.py
