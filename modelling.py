@@ -36,7 +36,8 @@ class ModelDiffusion(PhysicalConstant):
         result_arr = np.zeros((nt, nx))
         result_arr[0, :] = u_n
         u = np.zeros(nx)
-
+        timesteps = [0]
+        lap_time = 0
         for n in tqdm(range(0, nt-1)):
             # assume infinite reservoir based
             u[0] = u_n[0]
@@ -90,7 +91,9 @@ class ModelDiffusion(PhysicalConstant):
             
             result_arr[n+1, :] = u
             u_n[:] = u
-        return result_arr
+            lap_time += dt
+            timesteps.append(lap_time)
+        return result_arr, timesteps
 
 def main():
     # load pysical constants
@@ -116,12 +119,11 @@ def main():
     u_n = df["Initial Mg (ppm)"].to_numpy()
     dx = x_m[1] - x_m[0]
     nx = x_m.shape[0]
-    dt = 0.05 * (dx ** 2) / np.max(D)
+    dt = 0.1 * (dx ** 2) / np.max(D)
     nt = int(maxtime_s / dt)
     A_i = -26100
-    timesteps = range(0, nt)
     diffmodel = ModelDiffusion()
-    result_arr = diffmodel.diffusion_model(
+    result_arr, timesteps = diffmodel.diffusion_model(
         dx, dt, nx, nt, u_n, X_An, T_K, D, A_i, boundary
         )
     result_df = pd.DataFrame(

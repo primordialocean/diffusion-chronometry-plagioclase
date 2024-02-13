@@ -60,6 +60,7 @@ def main():
 
     # load configuration file
     config = json.load(open("config.json", "r"))
+    input_filename = config["Input filename"]
     Element = config["Element"]
     D_ref = config["Diffusion coefficient"]
     K_ref = config["Partition coefficient"]
@@ -68,9 +69,8 @@ def main():
     melt_SiO2_wt = config["melt SiO2 (wt%)"]
     #melt_Mg_ppm = config["melt Mg (ppm)"]
     maxtime_s = config["Max time"] * year
-
-    inputfile = "sample.xlsx"
-    df = pd.read_excel(inputfile, sheet_name="input")
+    
+    df = pd.read_excel(input_filename, sheet_name="input")
     distance_um = df["Distance (um)"].to_numpy()
     distance_m = distance_um * um
     X_An = df["XAn"].to_numpy()
