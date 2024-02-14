@@ -76,7 +76,7 @@ class ModelDiffusion(PhysicalConstant):
                         + D[-1] * (
                             (u_n[-2] - 2 * u_n[-1] + u_n[-2]) / (dx ** 2)
                             )
-                        - coef
+                        - A_i / (self.R_CONST * T_K)
                         * (
                             D[-1] * (((u_n[-2] - u_n[-1]) / dx)
                             * ((X_An[-2] - X_An[-1]) / dx))

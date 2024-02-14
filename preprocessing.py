@@ -60,7 +60,6 @@ def main():
 
     # load configuration file
     config = json.load(open("config.json", "r"))
-    input_filename = config["Input filename"]
     Element = config["Element"]
     D_ref = config["Diffusion coefficient"]
     K_ref = config["Partition coefficient"]
@@ -70,7 +69,7 @@ def main():
     #melt_Mg_ppm = config["melt Mg (ppm)"]
     maxtime_s = config["Max time"] * year
     
-    df = pd.read_excel(input_filename, sheet_name="input")
+    df = pd.read_csv("interpolated.csv")
     distance_um = df["Distance (um)"].to_numpy()
     distance_m = distance_um * um
     X_An = df["XAn"].to_numpy()
@@ -90,7 +89,7 @@ def main():
     # D_Mg = dc.mg_vanorman2014(T_K, X_An)
     D_Mg = dc.mg_costa2003(T_K, X_An)
 
-    df = pd.DataFrame.from_dict(
+    df = pd.DataFrame(
             {
                 "Distance (um)": distance_um,
                 "Distance (m)": distance_m,
@@ -102,7 +101,7 @@ def main():
                 "D_Mg": D_Mg
             }
         )
-    df.to_csv("preprocessed.csv")
+    df.to_csv("preprocessed.csv", index=False)
 
 if __name__ == "__main__":
     main()
