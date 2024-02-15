@@ -15,7 +15,7 @@ initial_ppm = df["Initial Mg (ppm)"].to_numpy()
 min_distance_um = math.floor(distance_um.min()) # round down
 max_distance_um = math.ceil(distance_um.max()) # round up
 
-dx_um = 0.1
+dx_um = 1
 
 interpolated_distance_um \
     = np.arange(min_distance_um, max_distance_um+dx_um, dx_um)

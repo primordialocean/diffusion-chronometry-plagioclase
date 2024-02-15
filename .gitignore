@@ -8,4 +8,5 @@
 !interpolation.py
 !preprocessor.py
 !diffmodel.py
+!fitting.py
 !plotter.py
