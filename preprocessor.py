@@ -60,7 +60,7 @@ def main():
 
     # load configuration file
     config = json.load(open("config.json", "r"))
-    Element = config["Element"]
+    element = config["Element"]
     D_ref = config["Diffusion coefficient"]
     K_ref = config["Partition coefficient"]
     T_C = config["T (C)"]

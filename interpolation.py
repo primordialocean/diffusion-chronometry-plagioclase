@@ -2,6 +2,10 @@ import pandas as pd
 import numpy as np
 import math
 from scipy.interpolate import interp1d
+import json
+
+config = json.load(open("config.json", "r"))
+element = config["Element"]
 
 filename = "sample.csv"
 
@@ -9,7 +13,7 @@ df = pd.read_csv(filename)
 
 distance_um = df["Distance (um)"].to_numpy()
 X_An = df["XAn"].to_numpy()
-measured_ppm = df["Mg (ppm)"].to_numpy()
+measured_ppm = df[element + " (ppm)"].to_numpy()
 initial_ppm = df["Initial Mg (ppm)"].to_numpy()
 
 min_distance_um = math.floor(distance_um.min()) # round down
