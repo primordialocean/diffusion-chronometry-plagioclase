@@ -47,23 +47,20 @@ class ModelDiffusion(PhysicalConstant):
                 * ((u_n[2:nx] - u_n[1:nx-1]) / dx)
                 + D[1:nx-1]
                 * ((u_n[2:nx] - 2 * u_n[1:nx-1] + u_n[0:nx-2]) / (dx ** 2))
-                - A_i / (self.R_CONST * T_K)
+                - (A_i / (self.R_CONST * T_K))
                 * (
-                    D[1:nx-1]
-                    * (
+                    D[1:nx-1] * (
                         ((u_n[2:nx] - u_n[1:nx-1]) / dx)
                         * ((X_An[2:nx] - X_An[1:nx-1]) / dx)
                     )
-                    + u_n[1 : nx - 1]
-                    * (
+                    + u_n[1 : nx - 1] * (
                         ((D[2:nx] - D[1:nx-1]) / dx)
                         * ((X_An[2:nx] - X_An[1:nx-1]) / dx)
                     )
-                    + D[1:nx-1] * u_n[1:nx-1]
-                    * (
+                    + D[1:nx-1] * u_n[1:nx-1] * (
                         (X_An[2:nx] - 2 * X_An[1:nx-1] + X_An[0:nx-2]) \
-                        /(dx ** 2)
-                        )
+                        / (dx ** 2)
+                    )
                 )
             )
 
@@ -72,20 +69,20 @@ class ModelDiffusion(PhysicalConstant):
                 u[-1] = u_n[-1]
             elif boundary == "Neumann":
                 u[-1] =  u_n[-1] + dt * (
-                        ((D[-2] - D[-1]) / dx) * ((u_n[-2] - u_n[-1]) / dx)
-                        + D[-1] * (
-                            (u_n[-2] - 2 * u_n[-1] + u_n[-2]) / (dx ** 2)
-                            )
-                        - coef
+                    ((D[-2] - D[-1]) / dx) * ((u_n[-2] - u_n[-1]) / dx)
+                    + D[-1] * (
+                        (u_n[-2] - 2 * u_n[-1] + u_n[-2]) / (dx ** 2)
+                    )
+                    - (A_i / (self.R_CONST * T_K))
+                    * (
+                        D[-1] * (((u_n[-2] - u_n[-1]) / dx)
+                        * ((X_An[-2] - X_An[-1]) / dx))
+                        + u_n[-1] * (((D[-2] - D[-1]) / dx)
+                        * ((X_An[-2] - X_An[-1]) / dx))
+                        + D[-1] * u_n[-1]
                         * (
-                            D[-1] * (((u_n[-2] - u_n[-1]) / dx)
-                            * ((X_An[-2] - X_An[-1]) / dx))
-                            + u_n[-1] * (((D[-2] - D[-1]) / dx)
-                            * ((X_An[-2] - X_An[-1]) / dx))
-                            + D[-1] * u_n[-1]
-                            * (
-                                (X_An[-2] - 2 * X_An[-1] + X_An[-2]) / (dx ** 2)
-                                )
+                            (X_An[-2] - 2 * X_An[-1] + X_An[-2]) / (dx ** 2)
+                            )
                         )
                     )
             
@@ -119,7 +116,7 @@ def main():
     u_n = df["Initial Mg (ppm)"].to_numpy()
     dx = x_m[1] - x_m[0]
     nx = x_m.shape[0]
-    dt = 0.1 * (dx ** 2) / np.max(D)
+    dt = 0.4 * (dx ** 2) / np.max(D)
     nt = int(maxtime_s / dt)
     A_i = -26100
     diffmodel = ModelDiffusion()
