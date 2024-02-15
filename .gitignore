@@ -5,6 +5,8 @@
 !.gitattributes
 !README.md
 !config.json
-!preprocessing.py
-!modelling.py
-!plot.py
+!interpolation.py
+!preprocessor.py
+!diffmodel.py
+!fitting.py
+!plotter.py
