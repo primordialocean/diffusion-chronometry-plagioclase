@@ -7,6 +7,6 @@
     "Diffusion coefficient": "VanOrman2014",
     "Partition coefficient": "Mutch2022",
     "Time unit": "year",
-    "Max time": 0.01,
+    "Max time": 0.1,
     "Boundary condition": "Neumann"
 }
