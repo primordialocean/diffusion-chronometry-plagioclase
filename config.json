@@ -2,10 +2,14 @@
     "Input filename": "sample.csv",
     "T (C)": 1100,
     "melt SiO2 (wt%)": 63,
-    "Element": "Sr",
-    "Partition coefficient": "Bindeman1998",
-    "Diffusion coefficient": "Zellmer1999",
+    "Element": "Mg",
+    "Partition coefficient": "Mutch2022",
+    "Diffusion coefficient": "vanOrman2014",
     "Time unit": "year",
-    "Max time": 10,
-    "Boundary condition": "Neumann"
+    "Max time": 0.1,
+    "Boundary condition": "Neumann",
+    "xlim": [0, 30],
+    "ylim": [0, 400],
+    "xlabel": "Distance (\u03bcm)",
+    "ylabel": "Mg (ppm)"
 }
