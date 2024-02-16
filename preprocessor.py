@@ -14,40 +14,61 @@ class PartitionCoefficient(PhysicalConstant):
     def __init__(self):
         super().__init__()
 
-    def mg_mutch2022(self, T_K, X_An, melt_SiO2_wt):
+    def mutch2022(self, T_K, X_An, melt_SiO2_wt):
         X_An_dev = X_An - (0.12 + 0.00038 * T_K)
         beta = np.where(X_An_dev <= 0, 0, 1)
-        RTlnK_Mg = (16900 - 37200 * beta) * X_An_dev \
+        RTlnK = (16900 - 37200 * beta) * X_An_dev \
             + 830 * melt_SiO2_wt - 83300
-        K_Mg = np.exp(RTlnK_Mg/(self.R_CONST * T_K))
-        return K_Mg
+        K = np.exp(RTlnK/(self.R_CONST * T_K))
+        return K
 
-    def mg_bindeman1998(self, T_K, X_An):
-        A_Mg, B_Mg = -26100, -25000
-        RTlnK_Mg  = A_Mg * X_An + B_Mg
-        K_Mg = np.exp(RTlnK_Mg/(self.R_CONST * T_K))
-        return K_Mg
+    def bindeman1998(self, element, T_K, X_An):
+        params = {
+            "Mg": (-26.1e3, -25.7e3),
+            "Sc": (-94.2e3, 37.4e3),
+            "Ti": (-28.9e3, -15.4e3),
+            "Rb": (-40e3, -15.1e3),
+            "Sr": (-30.4e3, 28.5e3),
+            "Ba": (-55.0e3, 19.1e3)
+            }
+        param = params[element]
+        RTlnK  = param[0] * X_An + param[1]
+        K = np.exp(RTlnK/(self.R_CONST * T_K))
+        return K
+    
+    def drake1972(self, element, T_K, X_An):
+        params = {
+            "Sr": (-18.9e3, 21.5e3),
+            "Ba": (-32.0e3, 7.4e3)
+            }
+        param = params[element]
+        RTlnK = param[0] * X_An + param[1]
+        K = np.exp(RTlnK/(self.R_CONST * T_K))
+        return K
 
 class DiffusionCoefficient(PhysicalConstant):
     def __init__(self):
         super().__init__()
-
-    def mg_costa2003(self, T_K, X_An):
+    # Mg diffusion
+    def costa2003(self, T_K, X_An):
         D_Mg = 2.92 * (10 ** (-4.1 * X_An - 3.1)) \
         * np.exp(-266000 / (self.R_CONST * T_K))
         return D_Mg
-
-    def mg_vanorman2014(self, T_K, X_An):
+    
+    def vanorman2014(self, T_K, X_An):
         D_Mg = np.exp(-6.06 - 7.96 * X_An - 287e3 / (self.R_CONST * T_K))
         return D_Mg
-
-    def sr_zellmer1999(self, T_K, X_An):
+    
+    # Sr diffusion
+    def zellmer1999(self, T_K, X_An):
         D_Sr = (10 ** (-4.1 * X_An - 4.08)) \
             * np.exp(-276000 / (self.R_CONST * T_K))
         return D_Sr
     
-    def ti_cherniak2020(self, T_K, X_An):
+    # Ti diffusion
+    def cherniak2020(self, T_K, X_An):
         D_Ti = 4.37e-14 * np.exp(-181000 / (self.R_CONST * T_K))
+        return D_Ti
 
 def main():
     # load pysical constants
@@ -60,45 +81,51 @@ def main():
 
     # load configuration file
     config = json.load(open("config.json", "r"))
-    Element = config["Element"]
+    element = config["Element"]
     D_ref = config["Diffusion coefficient"]
     K_ref = config["Partition coefficient"]
     T_C = config["T (C)"]
     T_K = T_C + KELVIN
     melt_SiO2_wt = config["melt SiO2 (wt%)"]
-    #melt_Mg_ppm = config["melt Mg (ppm)"]
     maxtime_s = config["Max time"] * year
     
     df = pd.read_csv("interpolated.csv")
     distance_um = df["Distance (um)"].to_numpy()
     distance_m = distance_um * um
     X_An = df["XAn"].to_numpy()
-    Mg_ppm = df["Mg (ppm)"].to_numpy()
-    init_Mg_ppm = df["Initial Mg (ppm)"].to_numpy()
+    measured_ppm = df[element + " (ppm)"].to_numpy()
+    initial_ppm = df["Initial " + element + " (ppm)"].to_numpy()
 
+    # import partition coefficiation class
     pc = PartitionCoefficient()
-    # K_Mg = pc.mg_mutch2022(T_K, X_An, melt_SiO2_wt)
-    K_Mg = pc.mg_bindeman1998(T_K, X_An)
-
+    # select reference
+    if K_ref == "Mutch2022":
+        K = pc.mutch2022(T_K, X_An, melt_SiO2_wt)
+    elif K_ref == "Bindeman1998":
+        K = pc.bindeman1998(element, T_K, X_An)
+    elif K_ref == "Drake1972":
+        K = pc.drake1972(element, T_K, X_An)
+    
     # estimate melt Mg from rimward composition
-    melt_Mg_ppm = Mg_ppm[0] / K_Mg[0]
-
-    eq_Mg = melt_Mg_ppm * K_Mg
+    melt_ppm = measured_ppm[0] / K[0]
+    equilibrium_ppm = melt_ppm * K
 
     dc = DiffusionCoefficient()
-    # D_Mg = dc.mg_vanorman2014(T_K, X_An)
-    D_Mg = dc.mg_costa2003(T_K, X_An)
+    if D_ref == "vanOrman2014":
+        D = dc.vanorman2014(T_K, X_An)
+    elif D_ref == "Zellmer1999":
+        D = dc.zellmer1999(T_K, X_An)
 
     df = pd.DataFrame(
             {
                 "Distance (um)": distance_um,
                 "Distance (m)": distance_m,
                 "XAn": X_An,
-                "Mg (ppm)": Mg_ppm,
-                "Initial Mg (ppm)": init_Mg_ppm,
-                "K_D": K_Mg,
-                "Equilibrium Mg (ppm)": eq_Mg,
-                "D_Mg": D_Mg
+                element + " (ppm)": measured_ppm,
+                "Initial " + element + " (ppm)": initial_ppm,
+                "K_D": K,
+                "Equilibrium "+ element + " (ppm)": equilibrium_ppm,
+                "D": D
             }
         )
     df.to_csv("preprocessed.csv", index=False)
