@@ -27,10 +27,11 @@ The repository relies on the following third-party libraries:
 The easiest way to install third-party libraries is by running `pip install --user $(library_name)`.
 
 ## Usage
-- To execute the calculation, the input compositional data should be analysed at equal intervals. If your data is non-equal intervals, `interpolation.py` can convert to equal intervals by using linear interpolation.
-- run `preprocessor.py` (optional)
-- run `diffmodel.py`
-- run `plotter.py`
+1. `interpolation.py` (optional): linearly interpolate analysed data. To execute the calculation, the input compositional data should be analysed at equal intervals. If you only have non-equal interval data, this program should be used.
+1. `preprocessor.py` calculates equilibrium composition from the rim composition and diffusion coefficient at each points.
+1. `diffmodel.py` solves the diffusion equation by using finite-difference forward method.
+1. `fitting.py` searches best-fit time from modelling results.
+1. `plotter.py` plots modelling results.
 
 ## References
 - Bindeman, I., Davis, A., Drake, M., 1998. Ion microprobe study of plagioclase-basalt partition experiments at natural concentration levels of trace elements. Geochimica et Cosmochimica Acta, 62, 1175-1193. https://doi.org/10.1016/S0016-7037(98)00047-7

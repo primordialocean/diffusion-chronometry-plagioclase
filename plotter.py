@@ -13,11 +13,8 @@ measured_ppm = df_measured[element + " (ppm)"].to_numpy()
 df_model = pd.read_csv("result.csv", header=0)
 
 model_distance_um = df_model["Distance (um)"].to_numpy()
-#An_mol = 100 * df["XAn"].to_numpy()
-#analysed_Mg = df["Mg"].to_numpy()
 initial_ppm = df_model.iloc[:, 1].to_numpy()
 bestfit_ppm = df_model.iloc[:, 1000].to_numpy()
-
 
 fig, ax = plt.subplots()
 ax.plot(measured_distance_um, measured_ppm, "o", c="k")
