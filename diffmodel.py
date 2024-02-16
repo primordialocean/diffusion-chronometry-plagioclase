@@ -105,6 +105,7 @@ def main():
     config = json.load(open("config.json", "r"))
     T_C = config["T (C)"]
     T_K = T_C + KELVIN
+    element = config["Element"]
     maxtime_s = config["Max time"] * year
     boundary = config["Boundary condition"]
 
@@ -112,8 +113,8 @@ def main():
     df = pd.read_csv("preprocessed.csv")
     x_m = df["Distance (m)"].to_numpy()
     X_An = df["XAn"].to_numpy()
-    D = df["D_Mg"].to_numpy()
-    u_n = df["Initial Mg (ppm)"].to_numpy()
+    D = df["D"].to_numpy()
+    u_n = df["Initial " + element + " (ppm)"].to_numpy()
     dx = x_m[1] - x_m[0]
     nx = x_m.shape[0]
     dt = 0.4 * (dx ** 2) / np.max(D)
