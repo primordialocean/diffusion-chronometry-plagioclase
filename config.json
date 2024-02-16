@@ -7,5 +7,9 @@
     "Diffusion coefficient": "Zellmer1999",
     "Time unit": "year",
     "Max time": 10,
-    "Boundary condition": "Neumann"
+    "Boundary condition": "Neumann",
+    "xlim": [0, 30],
+    "ylim": [0, 400],
+    "xlabel": "Distance (\u03bcm)",
+    "ylabel": "Sr (ppm)"
 }
