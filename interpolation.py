@@ -30,7 +30,6 @@ interpolated_measured_ppm \
 interpolated_initial_ppm \
     = np.interp(interpolated_distance_um, distance_um, initial_ppm)
 
-
 pd.DataFrame(
         {
             "Distance (um)": interpolated_distance_um,
