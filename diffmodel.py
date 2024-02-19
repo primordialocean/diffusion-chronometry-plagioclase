@@ -108,6 +108,7 @@ def main():
     element = config["Element"]
     maxtime_s = config["Max time"] * year
     boundary = config["Boundary condition"]
+    K_ref = config["Partition coefficient"]
 
     # load compositional data
     df = pd.read_csv("preprocessed.csv")
@@ -119,7 +120,10 @@ def main():
     nx = x_m.shape[0]
     dt = 0.4 * (dx ** 2) / np.max(D)
     nt = int(maxtime_s / dt)
-    A_i = -26100
+    if K_ref == "Mutch2022":
+        A_i = config["A_i"]
+    else:
+        A_i = -26100
     diffmodel = ModelDiffusion()
     result_arr, timesteps = diffmodel.diffusion_model(
         dx, dt, nx, nt, u_n, X_An, T_K, D, A_i, boundary

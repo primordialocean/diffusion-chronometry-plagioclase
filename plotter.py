@@ -8,6 +8,7 @@ xlim = config["xlim"]
 ylim = config["ylim"]
 xlabel = config["xlabel"]
 ylabel = config["ylabel"]
+bestfit_index = config["Bestfit index"]
 
 # load measured data
 df_measured = pd.read_csv("sample.csv", header=0)
@@ -23,7 +24,7 @@ equilibrium_ppm = df_preprocessed["Equilibrium "+ element + " (ppm)"].to_numpy()
 # load modelling results
 df_model = pd.read_csv("result.csv", header=0)
 model_distance_um = df_model["Distance (um)"].to_numpy()
-bestfit_ppm = df_model.iloc[:, 9137].to_numpy()
+bestfit_ppm = df_model.iloc[:, bestfit_index].to_numpy()
 
 # plot data
 fig, ax = plt.subplots()

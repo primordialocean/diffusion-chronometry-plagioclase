@@ -3,15 +3,16 @@
     "T (C)": 1100,
     "melt SiO2 (wt%)": 63,
     "Element": "Mg",
-    "Partition coefficient": "Bindeman1998",
+    "Partition coefficient": "Mutch2022",
     "Diffusion coefficient": "vanOrman2014",
     "Time unit": "day",
-    "A_i": -26100,
+    "A_i": 2187,
     "dx_um": 0.5,
     "Max time": 0.1,
     "Boundary condition": "Neumann",
     "xlim": [0, 30],
     "ylim": [0, 400],
     "xlabel": "Distance (\u03bcm)",
-    "ylabel": "Mg (ppm)"
+    "ylabel": "Mg (ppm)",
+    "Bestfit index": 7444
 }

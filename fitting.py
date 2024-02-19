@@ -29,6 +29,8 @@ arr_model_ppm = df_model.T.to_numpy()
 
 residual, bestfit_index = fitting(measured_ppm, arr_model_ppm)
 
+print("Bestfit index: " + str(bestfit_index))
+
 pd.DataFrame(
     {
         "Time (s)": time_s,
