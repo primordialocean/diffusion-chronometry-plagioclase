@@ -51,11 +51,12 @@ RTlnK_kJ_max_XAn = pc.mutch2022(T_K, max_X_An, melt_SiO2_wt)
 
 A_kJ = (RTlnK_kJ_max_XAn - RTlnK_kJ_min_XAn) / (max_X_An - min_X_An)
 A_J = A_kJ * 1e3
+print("A = " + str(round(A_J)) + " J")
 
 fig, ax = plt.subplots(figsize=(4,4))
 ax.text(
     0.99, 0.99,
-    "$A = $"+ str(int(A_J)) + " J",
+    "$A = $"+ str(round(A_J)) + " J",
     va='top', ha='right', transform=ax.transAxes,
     fontsize=11
     )
