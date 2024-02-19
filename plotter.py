@@ -28,7 +28,7 @@ model_distance_um = df_model["Distance (um)"].to_numpy()
 bestfit_ppm = df_model.iloc[:, bestfit_index].to_numpy()
 
 # plot data
-fig, ax = plt.subplots()
+fig, ax = plt.subplots(figsize=(5, 3))
 ax.plot(measured_distance_um, measured_ppm, "o", c="w", mec="k")
 ax.plot(preprocessed_distance_um, initial_ppm, "--", c="k")
 ax.plot(preprocessed_distance_um, equilibrium_ppm, "-", c="k")
@@ -38,4 +38,4 @@ ax.set_ylabel(ylabel)
 ax.set_xlim(*xlim)
 ax.set_ylim(*ylim)
 
-fig.savefig(working_dir + "/img.tif")
+fig.savefig(working_dir + "/img.tif", dpi=300, bbox_inches="tight")

@@ -46,6 +46,8 @@ bestfit_time = df["Time (d)"][bestfit_index]
 fig, ax = plt.subplots(figsize=(6, 3))
 ax.plot(df["Time (d)"], df["Residual"], "-", c="k")
 ax.axvline(x=bestfit_time, c="r")
+ax.set_xlim(0, )
+ax.set_ylim(0, )
 ax.set_title(str(int(bestfit_time)) + " " + time_unit)
 ax.set_xlabel("Time (d)")
 ax.set_ylabel("$\Sigma{\sqrt{(c_\mathrm{model}-c_\mathrm{measured})^2}}$")
