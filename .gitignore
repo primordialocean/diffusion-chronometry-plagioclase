@@ -7,6 +7,7 @@
 !config.json
 !interpolation.py
 !preprocessor.py
+!calcparam.py
 !diffmodel.py
 !fitting.py
 !plotter.py
