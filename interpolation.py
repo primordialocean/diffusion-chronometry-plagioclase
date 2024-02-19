@@ -6,6 +6,7 @@ import json
 
 config = json.load(open("config.json", "r"))
 element = config["Element"]
+dx_um = config["dx_um"]
 
 filename = "sample.csv"
 
@@ -19,8 +20,6 @@ initial_ppm = df["Initial "+ element +" (ppm)"].to_numpy()
 min_distance_um = math.floor(distance_um.min()) # round down
 max_distance_um = math.ceil(distance_um.max()) # round up
 
-dx_um = 1
-
 interpolated_distance_um \
     = np.arange(min_distance_um, max_distance_um+dx_um, dx_um)
 
@@ -30,7 +29,6 @@ interpolated_measured_ppm \
     = np.interp(interpolated_distance_um, distance_um, measured_ppm)
 interpolated_initial_ppm \
     = np.interp(interpolated_distance_um, distance_um, initial_ppm)
-
 
 pd.DataFrame(
         {

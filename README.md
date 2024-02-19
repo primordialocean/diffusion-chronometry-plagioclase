@@ -10,10 +10,9 @@
 **diffusion-chronometry-plagioclase** is a repository for carring out diffusion chronometry of plagioclase.
 
 ## Available models and parameters
-This repository contains diffusion chronometry of Mg and Sr in plagioclase
-by using Equation 7 from Costa et al. (2003). The diffusion equation is discretised in space and time and numerically solved by using finite-difference forward method. Boundary condition can be selected from the Dirichlet boundary condition (fixed value) and the Neumann boundary condition ($\mathrm{d}u/\mathrm{d}x = 0$).
+This repository encompasses the diffusion chronometry of Mg and Sr in plagioclase utilizing Equation 7 from Costa et al. (2003). The diffusion equation is discretized in space and time, and it is numerically solved using the finite-difference forward method. Boundary conditions can be selected from the Dirichlet boundary condition (fixed value) and the Neumann boundary condition ($\mathrm{d}u/\mathrm{d}x = 0$).
 
-This repositiory contains following partition coefficients and diffusion coefficients:
+This repository contains the following partition coefficients and diffusion coefficients:
 - Mg, Partition coefficient: Mutch et al. (2022), Diffusion coefficient: LaTourrette and Wasserburg (1998); Costa et al. (2003); Van Orman et al. (2013)
 - Sr, Partition coefficient: Bindeman et al. (1998), Diffusion coefficient: Giletti and Casserly (1994)
 
@@ -27,10 +26,11 @@ The repository relies on the following third-party libraries:
 The easiest way to install third-party libraries is by running `pip install --user $(library_name)`.
 
 ## Usage
-1. `interpolation.py` (optional): linearly interpolate analysed data. To execute the calculation, the input compositional data should be analysed at equal intervals. If you only have non-equal interval data, this program should be used.
-1. `preprocessor.py` calculates equilibrium composition from the rim composition and diffusion coefficient at each points.
-1. `diffmodel.py` solves the diffusion equation by using finite-difference forward method.
-1. `fitting.py` searches best-fit time from modelling results.
+1. `interpolation.py` (optional) linearly interpolate analysed data. To execute the calculation, the input compositional data should be analysed at equal intervals. If you only have non-equal interval data, this program should be used.
+1. `preprocessor.py` calculates equilibrium composition from the rim composition and diffusion coefficient at each point.
+1. `calcparam.py` (optional) estimate thermodynamic parameter ($A$ in equation 7 of Costa et al. (2003)). If you apply the Mg partition coefficient of Mutch et al. (2022) to numerical modelling, slope of partition coefficient that is described as $RT\ln{K_D} = AX_\mathrm{An} + B$ from analysed An content and melt SiO2 content.
+1. `diffmodel.py` solves the diffusion equation using the finite-difference forward method.
+1. `fitting.py` searches the best-fit time from modelling results.
 1. `plotter.py` plots modelling results.
 
 ## References

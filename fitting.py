@@ -14,6 +14,7 @@ def fitting(measured, modelled):
 
 config = json.load(open("config.json", "r"))
 element = config["Element"]
+time_unit = config["Time unit"]
 
 df_measured = pd.read_csv("interpolated.csv")
 df_model = pd.read_csv("result.csv").drop("Distance (um)", axis=1)
@@ -27,7 +28,6 @@ measured_ppm = df_measured[element + " (ppm)"].to_numpy()
 arr_model_ppm = df_model.T.to_numpy()
 
 residual, bestfit_index = fitting(measured_ppm, arr_model_ppm)
-print(bestfit_index)
 
 pd.DataFrame(
     {
@@ -39,8 +39,11 @@ pd.DataFrame(
 ).to_csv("summary.csv")
 
 df = pd.read_csv("summary.csv")
-fig, ax = plt.subplots()
+bestfit_time = df["Time (d)"][bestfit_index]
+fig, ax = plt.subplots(figsize=(6, 3))
 ax.plot(df["Time (d)"], df["Residual"], "-", c="k")
+ax.axvline(x=bestfit_time, c="r")
+ax.set_title(str(int(bestfit_time)) + " " + time_unit)
 ax.set_xlabel("Time (d)")
 ax.set_ylabel("$\Sigma{\sqrt{(c_\mathrm{model}-c_\mathrm{measured})^2}}$")
-fig.savefig("residual.tif")
+fig.savefig("residual.tif", dpi=300, bbox_inches="tight")

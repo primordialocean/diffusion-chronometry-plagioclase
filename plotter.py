@@ -23,7 +23,7 @@ equilibrium_ppm = df_preprocessed["Equilibrium "+ element + " (ppm)"].to_numpy()
 # load modelling results
 df_model = pd.read_csv("result.csv", header=0)
 model_distance_um = df_model["Distance (um)"].to_numpy()
-bestfit_ppm = df_model.iloc[:, 4215].to_numpy()
+bestfit_ppm = df_model.iloc[:, 9137].to_numpy()
 
 # plot data
 fig, ax = plt.subplots()
