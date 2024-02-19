@@ -15,9 +15,10 @@ def fitting(measured, modelled):
 config = json.load(open("config.json", "r"))
 element = config["Element"]
 time_unit = config["Time unit"]
+working_dir = config["Working directory"]
 
-df_measured = pd.read_csv("interpolated.csv")
-df_model = pd.read_csv("result.csv").drop("Distance (um)", axis=1)
+df_measured = pd.read_csv(working_dir + "/interpolated.csv")
+df_model = pd.read_csv(working_dir + "/result.csv").drop("Distance (um)", axis=1)
 
 time_s = [float(x) for x in df_model.columns.values]
 time_d = [x / (60 * 60 * 24) for x in time_s]
@@ -38,9 +39,9 @@ pd.DataFrame(
         "Time (y)": time_y,
         "Residual": residual
     }
-).to_csv("summary.csv")
+).to_csv(working_dir + "/summary.csv")
 
-df = pd.read_csv("summary.csv")
+df = pd.read_csv(working_dir + "/summary.csv")
 bestfit_time = df["Time (d)"][bestfit_index]
 fig, ax = plt.subplots(figsize=(6, 3))
 ax.plot(df["Time (d)"], df["Residual"], "-", c="k")
@@ -48,4 +49,4 @@ ax.axvline(x=bestfit_time, c="r")
 ax.set_title(str(int(bestfit_time)) + " " + time_unit)
 ax.set_xlabel("Time (d)")
 ax.set_ylabel("$\Sigma{\sqrt{(c_\mathrm{model}-c_\mathrm{measured})^2}}$")
-fig.savefig("residual.tif", dpi=300, bbox_inches="tight")
+fig.savefig(working_dir + "/residual.tif", dpi=300, bbox_inches="tight")

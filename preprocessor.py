@@ -81,6 +81,7 @@ def main():
 
     # load configuration file
     config = json.load(open("config.json", "r"))
+    working_dir = config["Working directory"]
     element = config["Element"]
     D_ref = config["Diffusion coefficient"]
     K_ref = config["Partition coefficient"]
@@ -89,7 +90,7 @@ def main():
     melt_SiO2_wt = config["melt SiO2 (wt%)"]
     maxtime_s = config["Max time"] * year
     
-    df = pd.read_csv("interpolated.csv")
+    df = pd.read_csv(working_dir + "/interpolated.csv")
     distance_um = df["Distance (um)"].to_numpy()
     distance_m = distance_um * um
     X_An = df["XAn"].to_numpy()
@@ -128,7 +129,7 @@ def main():
                 "D": D
             }
         )
-    df.to_csv("preprocessed.csv", index=False)
+    df.to_csv(working_dir + "/preprocessed.csv", index=False)
 
 if __name__ == "__main__":
     main()
