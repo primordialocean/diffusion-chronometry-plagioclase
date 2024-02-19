@@ -1,6 +1,13 @@
 *
 !*/
-!/sample/*
+!/sample/input.csv
+!/sample/interpolated.csv
+!/sample/preprocessed.csv
+!/sample/result.csv
+!/sample/summary.csv
+!/sample/pc.tif
+!/sample/residual.tif
+!/sample/img.tif
 !.gitignore
 !.gitattributes
 !README.md
