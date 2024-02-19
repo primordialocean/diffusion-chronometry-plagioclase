@@ -3,27 +3,29 @@ import matplotlib.pyplot as plt
 import json
 
 config = json.load(open("config.json", "r"))
+working_dir = config["Working directory"]
 element = config["Element"]
 xlim = config["xlim"]
 ylim = config["ylim"]
 xlabel = config["xlabel"]
 ylabel = config["ylabel"]
+bestfit_index = config["Bestfit index"]
 
 # load measured data
-df_measured = pd.read_csv("sample.csv", header=0)
+df_measured = pd.read_csv(working_dir + "/input.csv", header=0)
 measured_distance_um = df_measured["Distance (um)"].to_numpy()
 measured_ppm = df_measured[element + " (ppm)"].to_numpy()
 
 # load preprocessed data
-df_preprocessed = pd.read_csv("preprocessed.csv", header=0)
+df_preprocessed = pd.read_csv(working_dir + "/preprocessed.csv", header=0)
 preprocessed_distance_um = df_preprocessed["Distance (um)"].to_numpy()
 initial_ppm = df_preprocessed["Initial " + element + " (ppm)"].to_numpy()
 equilibrium_ppm = df_preprocessed["Equilibrium "+ element + " (ppm)"].to_numpy()
 
 # load modelling results
-df_model = pd.read_csv("result.csv", header=0)
+df_model = pd.read_csv(working_dir + "/result.csv", header=0)
 model_distance_um = df_model["Distance (um)"].to_numpy()
-bestfit_ppm = df_model.iloc[:, 9137].to_numpy()
+bestfit_ppm = df_model.iloc[:, bestfit_index].to_numpy()
 
 # plot data
 fig, ax = plt.subplots()
@@ -36,4 +38,4 @@ ax.set_ylabel(ylabel)
 ax.set_xlim(*xlim)
 ax.set_ylim(*ylim)
 
-fig.savefig("img.tif")
+fig.savefig(working_dir + "/img.tif")

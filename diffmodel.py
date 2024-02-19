@@ -103,14 +103,16 @@ def main():
 
     # load configuration file
     config = json.load(open("config.json", "r"))
+    working_dir = config["Working directory"]
     T_C = config["T (C)"]
     T_K = T_C + KELVIN
     element = config["Element"]
     maxtime_s = config["Max time"] * year
     boundary = config["Boundary condition"]
+    K_ref = config["Partition coefficient"]
 
     # load compositional data
-    df = pd.read_csv("preprocessed.csv")
+    df = pd.read_csv(working_dir + "/preprocessed.csv")
     x_m = df["Distance (m)"].to_numpy()
     X_An = df["XAn"].to_numpy()
     D = df["D"].to_numpy()
@@ -119,7 +121,10 @@ def main():
     nx = x_m.shape[0]
     dt = 0.4 * (dx ** 2) / np.max(D)
     nt = int(maxtime_s / dt)
-    A_i = -26100
+    if K_ref == "Mutch2022":
+        A_i = config["A_i"]
+    else:
+        A_i = -26100
     diffmodel = ModelDiffusion()
     result_arr, timesteps = diffmodel.diffusion_model(
         dx, dt, nx, nt, u_n, X_An, T_K, D, A_i, boundary
@@ -128,7 +133,7 @@ def main():
         result_arr.T, columns=timesteps
         )
     result_df.insert(0, "Distance (um)", x_m * 1e6)
-    result_df.to_csv("result.csv", index=False)
+    result_df.to_csv(working_dir + "/result.csv", index=False)
 
 if __name__ == "__main__":
     main()

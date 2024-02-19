@@ -17,6 +17,7 @@ KELVIN = const.KELVIN
 
 # load setting file
 config = json.load(open("config.json", "r"))
+working_dir = config["Working directory"]
 element = config["Element"]
 melt_SiO2_wt = config["melt SiO2 (wt%)"]
 T_C = config["T (C)"]
@@ -34,9 +35,7 @@ class PartitionCoefficient(PhysicalConstant):
         RTlnK_kJ = RTlnK * 1e-3
         return RTlnK_kJ
 
-filename = "sample.csv"
-
-df = pd.read_csv(filename)
+df = pd.read_csv(working_dir + "/input.csv")
 
 X_An = df["XAn"].to_numpy()
 min_X_An = X_An.min()
@@ -74,4 +73,4 @@ ax.set_xlim(0, 1)
 ax.set_ylim(-60, -10)
 ax.set_xlabel("$X_\mathrm{An}$")
 ax.set_ylabel("$RT\ln{K_D}$ (kJ mol$^{-1}$)")
-fig.savefig("pc.tif", dpi=300, bbox_inches="tight")
+fig.savefig(working_dir +  "/pc.tif", dpi=300, bbox_inches="tight")
