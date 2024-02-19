@@ -1,6 +1,6 @@
 *
 !*/
-!/samples/.gitkeep
+!/sample/*
 !.gitignore
 !.gitattributes
 !README.md
