@@ -5,9 +5,9 @@
 !/sample/preprocessed.csv
 !/sample/result.csv
 !/sample/summary.csv
-!/sample/pc.tif
-!/sample/residual.tif
-!/sample/img.tif
+!/sample/pc.jpg
+!/sample/residual.jpg
+!/sample/img.jpg
 !.gitignore
 !.gitattributes
 !README.md

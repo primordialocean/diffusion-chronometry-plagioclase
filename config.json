@@ -15,5 +15,6 @@
     "ylim": [0, 400],
     "xlabel": "Distance (\u03bcm)",
     "ylabel": "Mg (ppm)",
-    "Bestfit index": 744
+    "Bestfit index": 744,
+    "Image format": "jpg"
 }
