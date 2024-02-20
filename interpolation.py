@@ -6,11 +6,10 @@ import json
 
 config = json.load(open("config.json", "r"))
 element = config["Element"]
-dx_um = config["dx_um"]
+dx_um = config["distance step (um)"]
+working_dir = config["Working directory"]
 
-filename = "sample.csv"
-
-df = pd.read_csv(filename)
+df = pd.read_csv(working_dir + "/input.csv")
 
 distance_um = df["Distance (um)"].to_numpy()
 X_An = df["XAn"].to_numpy()
@@ -37,4 +36,4 @@ pd.DataFrame(
             element + " (ppm)": interpolated_measured_ppm,
             "Initial " + element + " (ppm)": interpolated_initial_ppm
         }
-    ).to_csv("interpolated.csv", index=False)
+    ).to_csv(working_dir + "/interpolated.csv", index=False)
