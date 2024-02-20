@@ -10,6 +10,7 @@ ylim = config["ylim"]
 xlabel = config["xlabel"]
 ylabel = config["ylabel"]
 bestfit_index = config["Bestfit index"]
+imgfmt = config["Image format"]
 
 # load measured data
 df_measured = pd.read_csv(working_dir + "/input.csv", header=0)
@@ -38,4 +39,4 @@ ax.set_ylabel(ylabel)
 ax.set_xlim(*xlim)
 ax.set_ylim(*ylim)
 
-fig.savefig(working_dir + "/img.tif", dpi=300, bbox_inches="tight")
+fig.savefig(working_dir + "/img." + imgfmt, dpi=300, bbox_inches="tight")
