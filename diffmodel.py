@@ -122,7 +122,7 @@ def main():
     dt = 0.4 * (dx ** 2) / np.max(D)
     nt = int(maxtime_s / dt)
     if K_ref == "Mutch2022":
-        A_i = config["A_i"]
+        A_i = config["A (J)"]
     else:
         A_i = -26100
     diffmodel = ModelDiffusion()
