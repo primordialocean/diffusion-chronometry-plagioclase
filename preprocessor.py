@@ -20,7 +20,7 @@ class PartitionCoefficient(PhysicalConstant):
         RTlnK = (16900 - 37200 * beta) * X_An_dev \
             + 830 * melt_SiO2_wt - 83300
         K = np.exp(RTlnK/(self.R_CONST * T_K))
-        print("Warming: calculate thermodynamic parameter using calcparam.py")
+        print("Warning: calculate thermodynamic parameter using calcparam.py")
         return K
 
     def nielsen2017(self, element, T_K, X_An):
@@ -120,7 +120,8 @@ def main():
     df = pd.read_csv(working_dir + "/interpolated.csv")
     distance_um = df["Distance (um)"].to_numpy()
     distance_m = distance_um * um
-    X_An = df["XAn"].to_numpy()
+    An_mol = df["An (mol%)"].to_numpy()
+    X_An = 0.01 * An_mol
     measured_ppm = df[element + " (ppm)"].to_numpy()
     initial_ppm = df["Initial " + element + " (ppm)"].to_numpy()
 
@@ -145,6 +146,8 @@ def main():
     dc = DiffusionCoefficient()
     if D_ref == "VanOrman2014":
         D = dc.vanorman2014(T_K, X_An)
+    elif D_ref == "Costa2003":
+        D = dc.costa2003(T_K, X_An)
     elif D_ref == "Zellmer1999":
         D = dc.zellmer1999(T_K, X_An)
 
@@ -152,6 +155,7 @@ def main():
             {
                 "Distance (um)": distance_um,
                 "Distance (m)": distance_m,
+                "An (mol%)": An_mol,
                 "XAn": X_An,
                 element + " (ppm)": measured_ppm,
                 "Initial " + element + " (ppm)": initial_ppm,

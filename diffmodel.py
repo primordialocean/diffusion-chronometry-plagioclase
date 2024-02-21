@@ -53,7 +53,7 @@ class ModelDiffusion(PhysicalConstant):
                         ((u_n[2:nx] - u_n[1:nx-1]) / dx)
                         * ((X_An[2:nx] - X_An[1:nx-1]) / dx)
                     )
-                    + u_n[1 : nx - 1] * (
+                    + u_n[1:nx-1] * (
                         ((D[2:nx] - D[1:nx-1]) / dx)
                         * ((X_An[2:nx] - X_An[1:nx-1]) / dx)
                     )
