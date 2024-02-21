@@ -121,10 +121,7 @@ def main():
     nx = x_m.shape[0]
     dt = 0.4 * (dx ** 2) / np.max(D)
     nt = int(maxtime_s / dt)
-    if K_ref == "Mutch2022":
-        A_i = config["A (J)"]
-    else:
-        A_i = -26100
+    A_i = config["A (J)"]
     diffmodel = ModelDiffusion()
     result_arr, timesteps = diffmodel.diffusion_model(
         dx, dt, nx, nt, u_n, X_An, T_K, D, A_i, boundary
