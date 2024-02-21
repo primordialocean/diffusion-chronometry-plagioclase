@@ -20,6 +20,20 @@ class PartitionCoefficient(PhysicalConstant):
         RTlnK = (16900 - 37200 * beta) * X_An_dev \
             + 830 * melt_SiO2_wt - 83300
         K = np.exp(RTlnK/(self.R_CONST * T_K))
+        print("Warming: calculate thermodynamic parameter using calcparam.py")
+        return K
+
+    def nielsen2017(self, element, T_K, X_An):
+        params = {
+            "Mg": (-10.0e3, -35.0e3),
+            "Ti": (-32.5e3, -15.1e3),
+            "Sr": (-25.0e3, 25.5e3),
+            "Ba": (-35.1e3, 10.0e3)
+            }
+        param = params[element]
+        RTlnK  = param[0] * X_An + param[1]
+        K = np.exp(RTlnK/(self.R_CONST * T_K))
+        print("A = " + str(param[0]))
         return K
 
     def bindeman1998(self, element, T_K, X_An):
@@ -34,6 +48,18 @@ class PartitionCoefficient(PhysicalConstant):
         param = params[element]
         RTlnK  = param[0] * X_An + param[1]
         K = np.exp(RTlnK/(self.R_CONST * T_K))
+        print("A = " + str(param[0]))
+        return K
+    
+    def blundy1991(self, element, T_K, X_An):
+        params = {
+            "Sr": (-26.7e3, 26.8e3),
+            "Ba": (-38.2e3, 10.2e3)
+            }
+        param = params[element]
+        RTlnK = param[0] * X_An + param[1]
+        K = np.exp(RTlnK/(self.R_CONST * T_K))
+        print("A = " + str(param[0]))
         return K
     
     def drake1972(self, element, T_K, X_An):
@@ -44,6 +70,7 @@ class PartitionCoefficient(PhysicalConstant):
         param = params[element]
         RTlnK = param[0] * X_An + param[1]
         K = np.exp(RTlnK/(self.R_CONST * T_K))
+        print("A = " + str(param[0]))
         return K
 
 class DiffusionCoefficient(PhysicalConstant):
@@ -102,8 +129,12 @@ def main():
     # select reference
     if K_ref == "Mutch2022":
         K = pc.mutch2022(T_K, X_An, melt_SiO2_wt)
+    elif K_ref == "Nielsen2017":
+        K = pc.nielsen2017(element, T_K, X_An)
     elif K_ref == "Bindeman1998":
         K = pc.bindeman1998(element, T_K, X_An)
+    elif K_ref == "Blundy1991":
+        K = pc.blundy1991(element, T_K, X_An)
     elif K_ref == "Drake1972":
         K = pc.drake1972(element, T_K, X_An)
     
@@ -112,7 +143,7 @@ def main():
     equilibrium_ppm = melt_ppm * K
 
     dc = DiffusionCoefficient()
-    if D_ref == "vanOrman2014":
+    if D_ref == "VanOrman2014":
         D = dc.vanorman2014(T_K, X_An)
     elif D_ref == "Zellmer1999":
         D = dc.zellmer1999(T_K, X_An)
