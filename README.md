@@ -30,14 +30,17 @@ The easiest way to install third-party libraries is by running `pip install --us
 1. (optional) `interpolation.py` linearly interpolate analysed data. To execute the calculation, the input compositional data should be analysed at equal intervals. If you only have non-equal interval data, this program should be used.
 1. `preprocessor.py` calculates equilibrium composition from the rim composition and diffusion coefficient at each point.
 1. (optional) `calcparam.py` estimate thermodynamic parameter ($A$ in equation 7 of Costa et al. (2003)). If you apply the Mg partition coefficient of Mutch et al. (2022) to numerical modelling, slope of partition coefficient that is described as $RT\ln{K_D} = AX_\mathrm{An} + B$ from analysed An content and melt SiO2 content.
+
 ![pc.jpg](sample/pc.jpg)
 
 1. `diffmodel.py` solves the diffusion equation using the finite-difference forward method.
 1. `fitting.py` searches the best-fit time from modelling results.
+
 ![residual.jpg](sample/residual.jpg)
 
 1. `plotter.py` plots modelling results.
-![img.jpg](./sample/img.jpg)
+
+![img.jpg](sample/img.jpg)
 
 ## About `config.json`
 The setting parameters are consolidated in the `config.json`.
