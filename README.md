@@ -40,7 +40,19 @@ The easiest way to install third-party libraries is by running `pip install --us
 
 - `plotter.py` plots modelling results.
 
-![img.jpg](sample/img.jpg)
+Partition coefficient of Bindeman et al. (1998)
+
+![img.jpg](sample/img_bindeman1998.jpg)
+
+Partition coefficient of Nielsen et al. (2017)
+
+![img.jpg](sample/img_nielsen2017.jpg)
+
+Partition coefficient of Mutch et al. (2022)
+
+![img.jpg](sample/img_mutch2022.jpg)
+
+Sample datasets were obtained from Supplementary information Figure A9 of Andersen et al. (2018).
 
 ## About `config.json`
 The setting parameters are consolidated in the `config.json`.
@@ -72,6 +84,7 @@ The setting parameters are consolidated in the `config.json`.
 - `Image format`: Format of output images (e.g. `"jpg"`, `"tif"`).
 
 ## References
+- Andersen, L., Singer, S., Costa, F., Fournelle, J., Herrin, S., Fabbro, N., 2018. Petrochronologic perspective on rhyolite volcano unrest at Laguna del Maule, Chile. Earth and Planetary Science Letters, 493, 57-70. https://doi.org/10.1016/j.epsl.2018.03.043
 - Bindeman, I., Davis, A., Drake, M., 1998. Ion microprobe study of plagioclase-basalt partition experiments at natural concentration levels of trace elements. Geochimica et Cosmochimica Acta, 62, 1175-1193. https://doi.org/10.1016/S0016-7037(98)00047-7
 - Blundy, J., Wood, B., 1991. Crystal-chemical controls on the partitioning of Sr and Ba between plagioclase feldspar, silicate melts, and hydrothermal solutions. Geochimica et Cosmochimica Acta, 55, 193-209. https://doi.org/10.1016/0016-7037(91)90411-W
 - Cherniak, D., Watson, E., 2020. Ti diffusion in feldspar. American Mineralogist, 105, 1040-1051. https://doi.org/10.2138/am-2020-7272
