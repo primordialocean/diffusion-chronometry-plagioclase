@@ -6,16 +6,33 @@ config = json.load(open("config.json", "r"))
 working_dir = config["Working directory"]
 element = config["Element"]
 xlim = config["xlim"]
-ylim = config["ylim"]
+ylim_An = config["ylim An"]
+ylim_model = config["ylim model"]
 xlabel = config["xlabel"]
 ylabel = config["ylabel"]
-bestfit_index = config["Bestfit index"]
+time_unit_name = config["Time unit"]
+plot1_time = config["Plot1 time"]
+plot2_time = config["Plot2 time"]
+plot3_time = config["Plot3 time"]
 imgfmt = config["Image format"]
+
+ts_column = {
+    "s": "Time (s)",
+    "d": "Time (d)",
+    "y": "Time (y)"
+    }
+t_column = ts_column[time_unit_name]
+
+df_summary = pd.read_csv(working_dir + "/summary.csv", header=0)
+plot1_index = (df_summary[t_column] - plot1_time).abs().idxmin()
+plot2_index = (df_summary[t_column] - plot2_time).abs().idxmin()
+plot3_index = (df_summary[t_column] - plot3_time).abs().idxmin()
 
 # load measured data
 df_measured = pd.read_csv(working_dir + "/input.csv", header=0)
 measured_distance_um = df_measured["Distance (um)"].to_numpy()
 measured_ppm = df_measured[element + " (ppm)"].to_numpy()
+measured_An_mol = df_measured["An (mol%)"].to_numpy()
 
 # load preprocessed data
 df_preprocessed = pd.read_csv(working_dir + "/preprocessed.csv", header=0)
@@ -25,20 +42,39 @@ equilibrium_ppm = df_preprocessed["Equilibrium "+ element + " (ppm)"].to_numpy()
 
 # load modelling results
 df_model = pd.read_csv(working_dir + "/result.csv", header=0)
-model_distance_um = df_model["Distance (um)"].to_numpy()
-bestfit_ppm = df_model.iloc[:, bestfit_index].to_numpy()
-#plot1_ppm = df_model.iloc[:, 2 * bestfit_index].to_numpy()
+plot1_ppm = df_model.iloc[:, plot1_index].to_numpy()
+plot2_ppm = df_model.iloc[:, plot2_index].to_numpy()
+plot3_ppm = df_model.iloc[:, plot3_index].to_numpy()
 
 # plot data
-fig, ax = plt.subplots(figsize=(5, 3))
-ax.plot(measured_distance_um, measured_ppm, "o", c="w", mec="k")
-ax.plot(preprocessed_distance_um, initial_ppm, "--", c="k")
-ax.plot(preprocessed_distance_um, equilibrium_ppm, "-", c="k")
-ax.plot(model_distance_um, bestfit_ppm, "-", c="r")
-#ax.plot(model_distance_um, plot1_ppm, "-", c="r")
-ax.set_xlabel(xlabel)
-ax.set_ylabel(ylabel)
-ax.set_xlim(*xlim)
-ax.set_ylim(*ylim)
+fig, ax = plt.subplots(2, 1, figsize=(5, 8), sharex=True)
+fig.subplots_adjust(hspace=0.07)
+ax[0].plot(measured_distance_um, measured_An_mol, "o", c="w", mec="k")
+ax[0].set_ylabel("An (mol%)")
+ax[0].set_ylim(*ylim_An)
 
+ax[1].plot(measured_distance_um, measured_ppm, "o", c="w", mec="k")
+ax[1].plot(preprocessed_distance_um, initial_ppm, "--", c="k", label="Initial")
+ax[1].plot(preprocessed_distance_um, equilibrium_ppm, "-", c="k", label="Equilibrium")
+
+ax[1].plot(
+    preprocessed_distance_um, plot1_ppm, "-", c="#4F1167",
+    label=str(round(plot1_time)) + " " + time_unit_name
+    )
+
+ax[1].plot(
+    preprocessed_distance_um, plot2_ppm, "-", c="#01B085",
+    label=str(round(plot2_time)) + " " + time_unit_name
+    )
+
+ax[1].plot(
+    preprocessed_distance_um, plot3_ppm, "-", c="#FFE529",
+    label=str(round(plot3_time)) + " " + time_unit_name
+    )
+
+ax[1].set_xlabel(xlabel)
+ax[1].set_ylabel(ylabel)
+ax[1].set_xlim(*xlim)
+ax[1].set_ylim(*ylim_model)
+ax[1].legend(fontsize=6)
 fig.savefig(working_dir + "/img." + imgfmt, dpi=300, bbox_inches="tight")
