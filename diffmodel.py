@@ -8,8 +8,6 @@ class PhysicalConstant:
         self.R_CONST = 8.31 # J/mol
         self.KELVIN = 273.15
         self.um = 1e-6 # um to m
-        self.year = 60 * 60 * 24 * 365 # year to second
-        self.day = 60 * 60 * 24 # day to second
 
 class ModelDiffusion(PhysicalConstant):
     def __init__(self):
@@ -20,19 +18,22 @@ class ModelDiffusion(PhysicalConstant):
         ):
         """Function for diffusion modelling of plagioclase trace elements.
         Args:
-            initial (ndarray): The initial composition of the plagioclase
-                trace element profile.
+            dx:
+            dt:
+            nx:
+            nt:
+            u_n:
             X_An (ndarray): The plagioclase anorthite profile as molar fraction.
-            t_s (ndarray): The time grid array.
+            T_K (float): Surrounded melt temperature as Kelvin.
             D (ndarray): The diffusion coefficient for each point
                 in the profile.
-            A_i (float): The thermodynamic parameter, RTlnKD = A_i * XAn + B_i
-            boundary: select "Dirichlet" (fixed boundary condition)
-                or "Neumann" (du/dx = 0)
+            A_i (float): The thermodynamic parameter, RTlnKD = A_i * XAn + B_i.
+            boundary (str): select "Dirichlet" (fixed boundary condition)
+                or "Neumann" (du/dx = 0).
         Returns:
             ndarray: The results of diffusion modelling.
         """
-        
+
         result_arr = np.zeros((nt, nx))
         result_arr[0, :] = u_n
         u = np.zeros(nx)
@@ -53,7 +54,7 @@ class ModelDiffusion(PhysicalConstant):
                         ((u_n[2:nx] - u_n[1:nx-1]) / dx)
                         * ((X_An[2:nx] - X_An[1:nx-1]) / dx)
                     )
-                    + u_n[1 : nx - 1] * (
+                    + u_n[1:nx-1] * (
                         ((D[2:nx] - D[1:nx-1]) / dx)
                         * ((X_An[2:nx] - X_An[1:nx-1]) / dx)
                     )
@@ -98,38 +99,41 @@ def main():
     KELVIN = const.KELVIN
     R_CONST = const.R_CONST
     um = const.um
-    day = const.day
-    year = const.year
-
     # load configuration file
     config = json.load(open("config.json", "r"))
     working_dir = config["Working directory"]
     T_C = config["T (C)"]
-    T_K = T_C + KELVIN
     element = config["Element"]
-    maxtime_s = config["Max time"] * year
+    time_unit_name = config["Time unit"]
+    time_units = {
+        "s": 1,
+        "d": 60 * 60 * 24,
+        "y": 60 * 60 * 24 * 365.25
+        }
+    time_unit = time_units[time_unit_name]
+    maxtime_s = config["Max time"] * time_unit
     boundary = config["Boundary condition"]
     K_ref = config["Partition coefficient"]
-
+    T_K = T_C + KELVIN
     # load compositional data
     df = pd.read_csv(working_dir + "/preprocessed.csv")
     x_m = df["Distance (m)"].to_numpy()
     X_An = df["XAn"].to_numpy()
     D = df["D"].to_numpy()
     u_n = df["Initial " + element + " (ppm)"].to_numpy()
-    dx = x_m[1] - x_m[0]
+    dx_m = x_m[1] - x_m[0]
     nx = x_m.shape[0]
-    dt = 0.4 * (dx ** 2) / np.max(D)
-    nt = int(maxtime_s / dt)
+    dt_s = 0.4 * (dx_m ** 2) / np.max(D)
+    nt = int(maxtime_s / dt_s)
     A_i = config["A (J)"]
     diffmodel = ModelDiffusion()
     result_arr, timesteps = diffmodel.diffusion_model(
-        dx, dt, nx, nt, u_n, X_An, T_K, D, A_i, boundary
+        dx_m, dt_s, nx, nt, u_n, X_An, T_K, D, A_i, boundary
         )
     result_df = pd.DataFrame(
         result_arr.T, columns=timesteps
         )
-    result_df.insert(0, "Distance (um)", x_m * 1e6)
+    result_df.insert(0, "Distance (m)", x_m)
     result_df.to_csv(working_dir + "/result.csv", index=False)
 
 if __name__ == "__main__":

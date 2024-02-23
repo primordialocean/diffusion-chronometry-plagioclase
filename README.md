@@ -27,20 +27,32 @@ The repository relies on the following third-party libraries:
 The easiest way to install third-party libraries is by running `pip install --user $(library_name)`.
 
 ## Usage
-1. (optional) `interpolation.py` linearly interpolate analysed data. To execute the calculation, the input compositional data should be analysed at equal intervals. If you only have non-equal interval data, this program should be used.
-1. `preprocessor.py` calculates equilibrium composition from the rim composition and diffusion coefficient at each point.
-1. (optional) `calcparam.py` estimate thermodynamic parameter ($A$ in equation 7 of Costa et al. (2003)). If you apply the Mg partition coefficient of Mutch et al. (2022) to numerical modelling, slope of partition coefficient that is described as $RT\ln{K_D} = AX_\mathrm{An} + B$ from analysed An content and melt SiO2 content.
+- (optional) `interpolation.py` linearly interpolate analysed data. To execute the calculation, the input compositional data should be analysed at equal intervals. If you only have non-equal interval data, this program should be used.
+- `preprocessor.py` calculates equilibrium composition from the rim composition and diffusion coefficient at each point.
+- (optional) `calcparam.py` estimate thermodynamic parameter ($A$ in equation 7 of Costa et al. (2003)). If you apply the Mg partition coefficient of Mutch et al. (2022) to numerical modelling, slope of partition coefficient that is described as $RT\ln{K_D} = AX_\mathrm{An} + B$ from analysed An content and melt SiO2 content.
 
 ![pc.jpg](sample/pc.jpg)
 
-1. `diffmodel.py` solves the diffusion equation using the finite-difference forward method.
-1. `fitting.py` searches the best-fit time from modelling results.
+- `diffmodel.py` solves the diffusion equation using the finite-difference forward method.
+- `fitting.py` searches the best-fit time from modelling results.
 
 ![residual.jpg](sample/residual.jpg)
 
-1. `plotter.py` plots modelling results.
+- `plotter.py` plots modelling results.
 
-![img.jpg](sample/img.jpg)
+Partition coefficient of Bindeman et al. (1998)
+
+![img.jpg](sample/img_bindeman1998.jpg)
+
+Partition coefficient of Nielsen et al. (2017)
+
+![img.jpg](sample/img_nielsen2017.jpg)
+
+Partition coefficient of Mutch et al. (2022)
+
+![img.jpg](sample/img_mutch2022.jpg)
+
+Sample datasets were obtained from Supplementary information Figure A9 of Andersen et al. (2018).
 
 ## About `config.json`
 The setting parameters are consolidated in the `config.json`.
@@ -59,7 +71,7 @@ The setting parameters are consolidated in the `config.json`.
   - Mg: `"Costa2003"` (Costa et al., 2003) or `"VanOrman2014"` (Van Orman et al., 2014)
   - Sr: `"Zellmer1999"` (Giletti & Casserly, 1994; Zellmer et al., 1999)
   - Ti: `"Cherniak2020"` (Cherniak and Watson, 2020)
-- `Time unit`: `"hour"`, `"day"`, `"year"`
+- `Time unit`: Unit of time for visualisation. Choose from `"s"` (second), `"d"` (day), and `"y"` (year).
 - `A (J)`: Slope of RTlnKD vs XAn. This parameter is only required for the partition coefficient of Mutch et al. (2022).
 - `distance step (um)`: Interval of distance for interpolation.
 - `Max time`: maximum time at set time unit
@@ -70,8 +82,10 @@ The setting parameters are consolidated in the `config.json`.
 - `ylabel`: Label of y-axis.
 - `Bestfit index`: Index of bestfit results by using `fitting.py`.
 - `Image format`: Format of output images (e.g. `"jpg"`, `"tif"`).
+- `"Image resolution (dpi)"`: Resolution of output images as dpi.
 
 ## References
+- Andersen, L., Singer, S., Costa, F., Fournelle, J., Herrin, S., Fabbro, N., 2018. Petrochronologic perspective on rhyolite volcano unrest at Laguna del Maule, Chile. Earth and Planetary Science Letters, 493, 57-70. https://doi.org/10.1016/j.epsl.2018.03.043
 - Bindeman, I., Davis, A., Drake, M., 1998. Ion microprobe study of plagioclase-basalt partition experiments at natural concentration levels of trace elements. Geochimica et Cosmochimica Acta, 62, 1175-1193. https://doi.org/10.1016/S0016-7037(98)00047-7
 - Blundy, J., Wood, B., 1991. Crystal-chemical controls on the partitioning of Sr and Ba between plagioclase feldspar, silicate melts, and hydrothermal solutions. Geochimica et Cosmochimica Acta, 55, 193-209. https://doi.org/10.1016/0016-7037(91)90411-W
 - Cherniak, D., Watson, E., 2020. Ti diffusion in feldspar. American Mineralogist, 105, 1040-1051. https://doi.org/10.2138/am-2020-7272
