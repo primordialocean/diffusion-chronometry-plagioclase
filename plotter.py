@@ -2,7 +2,8 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import json
 
-config = json.load(open("config.json", "r"))
+with open("config.json") as f:
+    config = json.load(f)
 working_dir = config["Working directory"]
 element = config["Element"]
 xlim = config["xlim"]
@@ -11,23 +12,17 @@ ylim_model = config["ylim model"]
 xlabel = config["xlabel"]
 ylabel = config["ylabel"]
 time_unit_name = config["Time unit"]
+time_column_name = "Time (" + time_unit_name + ")"
 plot1_time = config["Plot1 time"]
 plot2_time = config["Plot2 time"]
 plot3_time = config["Plot3 time"]
 imgfmt = config["Image format"]
 imgres_dpi = config["Image resolution (dpi)"]
 
-ts_column = {
-    "s": "Time (s)",
-    "d": "Time (d)",
-    "y": "Time (y)"
-    }
-t_column = ts_column[time_unit_name]
-
 df_summary = pd.read_csv(working_dir + "/summary.csv", header=0)
-plot1_index = (df_summary[t_column] - plot1_time).abs().idxmin()
-plot2_index = (df_summary[t_column] - plot2_time).abs().idxmin()
-plot3_index = (df_summary[t_column] - plot3_time).abs().idxmin()
+plot1_index = (df_summary[time_column_name] - plot1_time).abs().idxmin()
+plot2_index = (df_summary[time_column_name] - plot2_time).abs().idxmin()
+plot3_index = (df_summary[time_column_name] - plot3_time).abs().idxmin()
 
 # load measured data
 df_measured = pd.read_csv(working_dir + "/input.csv", header=0)

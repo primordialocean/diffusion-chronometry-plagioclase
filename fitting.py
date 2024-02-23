@@ -2,6 +2,7 @@ import numpy as np
 import pandas as pd
 import json
 import matplotlib.pyplot as plt
+from constants import Units
 
 def fitting(measured, modelled):
     residual = np.sum(
@@ -12,9 +13,14 @@ def fitting(measured, modelled):
     bestfit_index = bestfit_index[0].item()
     return residual, bestfit_index
 
-config = json.load(open("config.json", "r"))
+units = Units()
+TIME_UNITS = units.TIME_UNITS
+
+with open("config.json") as f:
+    config = json.load(f)
 element = config["Element"]
 time_unit_name = config["Time unit"]
+time_column_name = "Time (" + time_unit_name + ")"
 working_dir = config["Working directory"]
 imgfmt = config["Image format"]
 imgres_dpi = config["Image resolution (dpi)"]
@@ -22,9 +28,8 @@ imgres_dpi = config["Image resolution (dpi)"]
 df_measured = pd.read_csv(working_dir + "/interpolated.csv")
 df_model = pd.read_csv(working_dir + "/result.csv").drop("Distance (m)", axis=1)
 
-time_s = [float(x) for x in df_model.columns.values]
-time_d = [x / (60 * 60 * 24) for x in time_s]
-time_y = [x / (60 * 60 * 24 * 365.25) for x in time_s]
+times_s = [float(x) for x in df_model.columns.values]
+times = [time_s / TIME_UNITS[time_unit_name] for time_s in times_s]
 
 measured_ppm = df_measured[element + " (ppm)"].to_numpy()
 
@@ -34,31 +39,22 @@ residual, bestfit_index = fitting(measured_ppm, arr_model_ppm)
 
 pd.DataFrame(
     {
-        "Time (s)": time_s,
-        "Time (d)": time_d ,
-        "Time (y)": time_y,
+        time_column_name: times,
         "Residual": residual
     }
 ).to_csv(working_dir + "/summary.csv")
 
-ts_column = {
-    "s": "Time (s)",
-    "d": "Time (d)",
-    "y": "Time (y)"
-    }
-
-t_column = ts_column[time_unit_name]
-
 df = pd.read_csv(working_dir + "/summary.csv")
-bestfit_time = df[t_column][bestfit_index]
+bestfit_time = df[time_column_name][bestfit_index]
+
 print("Bestfit time: " + str(bestfit_time) + " " + time_unit_name)
 
 fig, ax = plt.subplots(figsize=(5, 3))
-ax.plot(df[t_column], df["Residual"], "-", c="k")
+ax.plot(df[time_column_name], df["Residual"], "-", c="k")
 ax.axvline(x=bestfit_time, c="r")
 ax.set_xlim(0, )
 ax.set_ylim(0, )
 ax.set_title(str(int(bestfit_time)) + " " + time_unit_name)
-ax.set_xlabel(t_column)
+ax.set_xlabel("Time (" + time_unit_name + ")")
 ax.set_ylabel("$\Sigma{\sqrt{(c_\mathrm{model}-c_\mathrm{measured})^2}}$")
 fig.savefig(working_dir + "/residual." + imgfmt, dpi=imgres_dpi, bbox_inches="tight")
