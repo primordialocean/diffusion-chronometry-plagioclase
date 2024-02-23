@@ -2,6 +2,7 @@ import numpy as np
 import pandas as pd
 import json
 import matplotlib.pyplot as plt
+from constants import Units
 
 def fitting(measured, modelled):
     residual = np.sum(
@@ -11,6 +12,10 @@ def fitting(measured, modelled):
     bestfit_index = np.argwhere(residual == residual_min)
     bestfit_index = bestfit_index[0].item()
     return residual, bestfit_index
+
+units = Units()
+DAY = units.DAY
+YEAR = units.YEAR
 
 config = json.load(open("config.json", "r"))
 element = config["Element"]
@@ -22,9 +27,9 @@ imgres_dpi = config["Image resolution (dpi)"]
 df_measured = pd.read_csv(working_dir + "/interpolated.csv")
 df_model = pd.read_csv(working_dir + "/result.csv").drop("Distance (m)", axis=1)
 
-time_s = [float(x) for x in df_model.columns.values]
-time_d = [x / (60 * 60 * 24) for x in time_s]
-time_y = [x / (60 * 60 * 24 * 365.25) for x in time_s]
+times_s = [float(x) for x in df_model.columns.values]
+times_d = [time_s / DAY for time_s in times_s]
+times_y = [time_s / YEAR for time_s in times_s]
 
 measured_ppm = df_measured[element + " (ppm)"].to_numpy()
 
@@ -34,9 +39,9 @@ residual, bestfit_index = fitting(measured_ppm, arr_model_ppm)
 
 pd.DataFrame(
     {
-        "Time (s)": time_s,
-        "Time (d)": time_d ,
-        "Time (y)": time_y,
+        "Time (s)": times_s,
+        "Time (d)": times_d ,
+        "Time (y)": times_y,
         "Residual": residual
     }
 ).to_csv(working_dir + "/summary.csv")

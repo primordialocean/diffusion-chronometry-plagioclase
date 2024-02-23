@@ -2,14 +2,9 @@ import numpy as np
 import pandas as pd
 import json
 from tqdm import tqdm
+from constants import PhysicalConstants, Units
 
-class PhysicalConstant:
-    def __init__(self):
-        self.R_CONST = 8.31 # J/mol
-        self.KELVIN = 273.15
-        self.um = 1e-6 # um to m
-
-class ModelDiffusion(PhysicalConstant):
+class ModelDiffusion(PhysicalConstants):
     def __init__(self):
         super().__init__()
     
@@ -95,10 +90,10 @@ class ModelDiffusion(PhysicalConstant):
 
 def main():
     # load pysical constants
-    const = PhysicalConstant()
-    KELVIN = const.KELVIN
-    R_CONST = const.R_CONST
-    um = const.um
+    physconsts = PhysicalConstants()
+    units = Units()
+    KELVIN = physconsts.KELVIN
+    UM = units.UM
     # load configuration file
     config = json.load(open("config.json", "r"))
     working_dir = config["Working directory"]
@@ -106,9 +101,9 @@ def main():
     element = config["Element"]
     time_unit_name = config["Time unit"]
     time_units = {
-        "s": 1,
-        "d": 60 * 60 * 24,
-        "y": 60 * 60 * 24 * 365.25
+        "s": units.SECOND,
+        "d": units.DAY,
+        "y": units.YEAR
         }
     time_unit = time_units[time_unit_name]
     maxtime_s = config["Max time"] * time_unit

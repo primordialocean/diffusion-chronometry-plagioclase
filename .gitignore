@@ -11,6 +11,7 @@
 !README.md
 !config.json
 !wrapper_diff.ps1
+!constants.py
 !interpolation.py
 !preprocessor.py
 !calcparam.py

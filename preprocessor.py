@@ -1,16 +1,9 @@
 import numpy as np
 import pandas as pd
 import json
+from constants import PhysicalConstants, Units
 
-class PhysicalConstant:
-    def __init__(self):
-        self.R_CONST = 8.31 # J/mol
-        self.KELVIN = 273.15
-        self.um = 1e-6 # um to m
-        self.year = 60 * 60 * 24 * 365 # year to second
-        self.day = 60 * 60 * 24 # day to second
-
-class PartitionCoefficient(PhysicalConstant):
+class PartitionCoefficient(PhysicalConstants):
     def __init__(self):
         super().__init__()
 
@@ -73,7 +66,7 @@ class PartitionCoefficient(PhysicalConstant):
         print("A = " + str(param[0]))
         return K
 
-class DiffusionCoefficient(PhysicalConstant):
+class DiffusionCoefficient(PhysicalConstants):
     def __init__(self):
         super().__init__()
     # Mg diffusion
@@ -98,13 +91,14 @@ class DiffusionCoefficient(PhysicalConstant):
         return D_Ti
 
 def main():
-    # load pysical constants
-    const = PhysicalConstant()
-    KELVIN = const.KELVIN
-    R_CONST = const.R_CONST
-    um = const.um
-    day = const.day
-    year = const.year
+    # load physicalconstants
+    physconsts = PhysicalConstants()
+    KELVIN = physconsts.KELVIN
+    
+    # load units
+    units = Units()
+    UM = units.UM
+    YEAR = units.YEAR
 
     # load configuration file
     config = json.load(open("config.json", "r"))
@@ -115,11 +109,11 @@ def main():
     T_C = config["T (C)"]
     T_K = T_C + KELVIN
     melt_SiO2_wt = config["melt SiO2 (wt%)"]
-    maxtime_s = config["Max time"] * year
+    maxtime_s = config["Max time"] * YEAR
     
     df = pd.read_csv(working_dir + "/interpolated.csv")
     distance_um = df["Distance (um)"].to_numpy()
-    distance_m = distance_um * um
+    distance_m = distance_um * UM
     An_mol = df["An (mol%)"].to_numpy()
     X_An = 0.01 * An_mol
     measured_ppm = df[element + " (ppm)"].to_numpy()

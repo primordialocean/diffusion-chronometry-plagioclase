@@ -2,18 +2,11 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import json
-
-class PhysicalConstant:
-    def __init__(self):
-        self.R_CONST = 8.31 # J/mol
-        self.KELVIN = 273.15
-        self.um = 1e-6 # um to m
-        self.year = 60 * 60 * 24 * 365 # year to second
-        self.day = 60 * 60 * 24 # day to second
+from constants import PhysicalConstants
 
 # load pysical constants
-const = PhysicalConstant()
-KELVIN = const.KELVIN
+physconsts = PhysicalConstants()
+KELVIN = physconsts.KELVIN
 
 # load setting file
 config = json.load(open("config.json", "r"))
@@ -25,10 +18,7 @@ T_K = T_C + KELVIN
 imgfmt = config["Image format"]
 imgres_dpi = config["Image resolution (dpi)"]
 
-class PartitionCoefficient(PhysicalConstant):
-    def __init__(self):
-        super().__init__()
-    
+class PartitionCoefficient():
     def mutch2022(self, T_K, X_An, melt_SiO2_wt):
         X_An_dev = X_An - (0.12 + 0.00038 * T_K)
         beta = np.where(X_An_dev <= 0, 0, 1)
