@@ -9,3 +9,8 @@ class Units:
         self.SECOND = 1 # day as second
         self.DAY = 60 * 60 * 24 # day as second
         self.YEAR = 60 * 60 * 24 * 365.25 # year as second
+        self.TIME_UNITS = {
+            "s": 1,
+            "d": 60 * 60 * 24,
+            "y": 60 * 60 * 24 * 365.25
+            }

@@ -10,6 +10,7 @@
 !.gitattributes
 !README.md
 !config.json
+!kd.csv
 !wrapper_diff.ps1
 !constants.py
 !partitioncoef.py

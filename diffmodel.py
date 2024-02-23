@@ -91,26 +91,28 @@ class ModelDiffusion(PhysicalConstants):
 def main():
     # load pysical constants
     physconsts = PhysicalConstants()
-    units = Units()
     KELVIN = physconsts.KELVIN
+
+    # load units
+    units = Units()
     UM = units.UM
+    TIME_UNITS = units.TIME_UNITS
+
     # load configuration file
     with open("config.json") as f:
         config = json.load(f)
+    
     working_dir = config["Working directory"]
     T_C = config["T (C)"]
+    T_K = T_C + KELVIN
     element = config["Element"]
     time_unit_name = config["Time unit"]
-    time_units = {
-        "s": units.SECOND,
-        "d": units.DAY,
-        "y": units.YEAR
-        }
-    time_unit = time_units[time_unit_name]
+
+    time_unit = TIME_UNITS[time_unit_name]
     maxtime_s = config["Max time"] * time_unit
     boundary = config["Boundary condition"]
     K_ref = config["Partition coefficient"]
-    T_K = T_C + KELVIN
+
     # load compositional data
     df = pd.read_csv(working_dir + "/preprocessed.csv")
     x_m = df["Distance (m)"].to_numpy()

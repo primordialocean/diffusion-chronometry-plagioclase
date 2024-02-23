@@ -20,8 +20,9 @@ def main():
         config = json.load(f)
     working_dir = config["Working directory"]
     element = config["Element"]
-    D_ref = config["Diffusion coefficient"]
+    K_model = config["Partition coefficient model"]
     K_ref = config["Partition coefficient"]
+    D_ref = config["Diffusion coefficient"]
     T_C = config["T (C)"]
     T_K = T_C + KELVIN
     melt_SiO2_wt = config["melt SiO2 (wt%)"]
@@ -38,20 +39,14 @@ def main():
     # import partition coefficiation class
     pc = PartitionCoefficients()
     # select reference
-    if K_ref == "Mutch2022":
-        K = pc.mutch2022(T_K, X_An, melt_SiO2_wt)
-    elif K_ref == "Nielsen2017":
-        K = pc.nielsen2017(element, T_K, X_An)
-    elif K_ref == "Bindeman1998":
-        K = pc.bindeman1998(element, T_K, X_An)
-    elif K_ref == "Blundy1991":
-        K = pc.blundy1991(element, T_K, X_An)
-    elif K_ref == "Drake1972":
-        K = pc.drake1972(element, T_K, X_An)
+    if K_model == "Mutch2022":
+        K = pc.mutch2022(K_ref, element, T_K, X_An, melt_SiO2_wt)
+    elif K_model == "Empirical":
+        A_i, B_i, K_i = pc.empirical_model(K_ref, element, T_K, X_An)
     
     # estimate melt Mg from rimward composition
-    melt_ppm = measured_ppm[0] / K[0]
-    equilibrium_ppm = melt_ppm * K
+    melt_ppm = measured_ppm[0] / K_i[0]
+    equilibrium_ppm = melt_ppm * K_i
 
     dc = DiffusionCoefficients()
     if D_ref == "VanOrman2014":
@@ -69,7 +64,7 @@ def main():
                 "XAn": X_An,
                 element + " (ppm)": measured_ppm,
                 "Initial " + element + " (ppm)": initial_ppm,
-                "K_D": K,
+                "K_D": K_i,
                 "Equilibrium "+ element + " (ppm)": equilibrium_ppm,
                 "D": D
             }
