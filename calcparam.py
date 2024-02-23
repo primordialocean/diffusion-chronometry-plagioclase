@@ -23,6 +23,7 @@ melt_SiO2_wt = config["melt SiO2 (wt%)"]
 T_C = config["T (C)"]
 T_K = T_C + KELVIN
 imgfmt = config["Image format"]
+imgres_dpi = config["Image resolution (dpi)"]
 
 class PartitionCoefficient(PhysicalConstant):
     def __init__(self):
@@ -38,7 +39,8 @@ class PartitionCoefficient(PhysicalConstant):
 
 df = pd.read_csv(working_dir + "/input.csv")
 
-X_An = df["XAn"].to_numpy()
+An_mol = df["An (mol%)"].to_numpy()
+X_An = 0.01 * An_mol
 min_X_An = X_An.min()
 max_X_An = X_An.max()
 X_An_arr = np.arange(0, 1, 0.001)
@@ -53,15 +55,14 @@ A_kJ = (RTlnK_kJ_max_XAn - RTlnK_kJ_min_XAn) / (max_X_An - min_X_An)
 A_J = A_kJ * 1e3
 print("A = " + str(round(A_J)) + " J")
 
-fig, ax = plt.subplots(figsize=(4,4))
+fig, ax = plt.subplots(figsize=(5,5))
 ax.text(
     0.99, 0.99,
-    "$A = $"+ str(round(A_J)) + " J",
+    "$A = $"+ str(round(A_kJ, 1)).replace("-", "−") + " kJ",
     va='top', ha='right', transform=ax.transAxes,
     fontsize=11
     )
 ax.plot(X_An_arr, RTlnK_kJ_arr, "--", c="k")
-ax.plot(X_An, RTlnK_kJ, "o", c="w", mec="k")
 ax.plot(
     [min_X_An, max_X_An], [RTlnK_kJ_min_XAn, RTlnK_kJ_max_XAn],
     "-o", c="r"
@@ -74,4 +75,4 @@ ax.set_xlim(0, 1)
 ax.set_ylim(-60, -10)
 ax.set_xlabel("$X_\mathrm{An}$")
 ax.set_ylabel("$RT\ln{K_D}$ (kJ mol$^{-1}$)")
-fig.savefig(working_dir +  "/pc." + imgfmt, dpi=300, bbox_inches="tight")
+fig.savefig(working_dir +  "/pc." + imgfmt, dpi=imgres_dpi, bbox_inches="tight")
