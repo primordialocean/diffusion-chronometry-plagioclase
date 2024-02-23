@@ -28,6 +28,7 @@ def main():
     melt_SiO2_wt = config["melt SiO2 (wt%)"]
     maxtime_s = config["Max time"] * YEAR
     
+    # load interpolated initial and measured datasets
     df = pd.read_csv(working_dir + "/interpolated.csv")
     distance_um = df["Distance (um)"].to_numpy()
     distance_m = distance_um * UM
@@ -40,9 +41,9 @@ def main():
     pc = PartitionCoefficients()
     # select reference
     if K_model == "Mutch2022":
-        K = pc.mutch2022(K_ref, element, T_K, X_An, melt_SiO2_wt)
+        A_i, K_i = pc.mutch_model(K_ref, element, T_K, X_An, melt_SiO2_wt)
     elif K_model == "Empirical":
-        A_i, B_i, K_i = pc.empirical_model(K_ref, element, T_K, X_An)
+        A_i, K_i = pc.empirical_model(K_ref, element, T_K, X_An)
     
     # estimate melt Mg from rimward composition
     melt_ppm = measured_ppm[0] / K_i[0]
@@ -70,6 +71,13 @@ def main():
             }
         )
     df.to_csv(working_dir + "/preprocessed.csv", index=False)
+
+    config["A (J)"] = A_i
+    update_config = json.dumps(config, indent=4)
+    
+    with open("config.json", "w") as f:
+        f.write(update_config)
+
 
 if __name__ == "__main__":
     main()

@@ -10,7 +10,6 @@ if (Test-Path $venvPath) {
 }
 python interpolation.py
 python preprocessor.py
-python calcparam.py
 python diffmodel.py
 python fitting.py
 python plotter.py

@@ -6,17 +6,26 @@
     "Partition coefficient model": "Empirical",
     "Partition coefficient": "Bindeman1998",
     "Diffusion coefficient": "VanOrman2014",
-    "A (J)": 16900.0,
+    "A (J)": -26100,
     "Boundary condition": "Neumann",
     "distance step (um)": 5,
     "Time unit": "y",
     "Max time": 1000,
-    "Plot1 time": 10,
-    "Plot2 time": 100,
-    "Plot3 time": 1000,
-    "xlim": [0,500],
-    "ylim An": [20, 45],
-    "ylim model": [0, 240],
+    "Plot1 time": 5,
+    "Plot2 time": 50,
+    "Plot3 time": 500,
+    "xlim": [
+        0,
+        500
+    ],
+    "ylim An": [
+        20,
+        45
+    ],
+    "ylim model": [
+        0,
+        240
+    ],
     "xlabel": "Distance (\u03bcm)",
     "ylabel": "Mg (ppm)",
     "Image format": "jpg",
