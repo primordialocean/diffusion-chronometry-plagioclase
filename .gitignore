@@ -10,6 +10,7 @@
 !.gitattributes
 !README.md
 !config.json
+!wrapper_diff.ps1
 !interpolation.py
 !preprocessor.py
 !calcparam.py
