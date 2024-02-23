@@ -61,6 +61,7 @@ The setting parameters are consolidated in the `config.json`.
 - `T (C)`: Surrounding melt temperature as degree Celsius
 - `melt SiO2 (wt%)`: (optional) Surrounding melt SiO2 content (wt%). This parameter is only required for the partition coefficient of Mutch et al. (2022).
 - `Element`: Element `"Mg"`, `"Sr"`, `"Ti"`, `"Ba"`.
+- `Partition coefficient model`: `"Mutch"` (Mutch et al., 2022) or `"Empirical"` (Drake et al., 1972; Blundy & Wood, 1991; Bindeman et al., 1998; Nielsen et al., 2017)
 - `Partition coefficient`:
   - `"Mutch2022"` (Mutch et al., 2022): `"Mg"`, `"Ti"`, `"Sr"`, `"Ba"`
   - `"Nielsen2017"` (Nielsen et al., 2017): `"Mg"`
