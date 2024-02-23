@@ -2,7 +2,8 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import json
 
-config = json.load(open("config.json", "r"))
+with open("config.json") as f:
+    config = json.load(f)
 working_dir = config["Working directory"]
 element = config["Element"]
 xlim = config["xlim"]

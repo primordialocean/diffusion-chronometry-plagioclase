@@ -17,7 +17,8 @@ units = Units()
 DAY = units.DAY
 YEAR = units.YEAR
 
-config = json.load(open("config.json", "r"))
+with open("config.json") as f:
+    config = json.load(f)
 element = config["Element"]
 time_unit_name = config["Time unit"]
 working_dir = config["Working directory"]

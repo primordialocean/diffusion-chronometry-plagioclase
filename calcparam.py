@@ -9,7 +9,8 @@ physconsts = PhysicalConstants()
 KELVIN = physconsts.KELVIN
 
 # load setting file
-config = json.load(open("config.json", "r"))
+with open("config.json") as f:
+    config = json.load(f)
 working_dir = config["Working directory"]
 element = config["Element"]
 melt_SiO2_wt = config["melt SiO2 (wt%)"]

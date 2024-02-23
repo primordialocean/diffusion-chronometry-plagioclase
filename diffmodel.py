@@ -95,7 +95,8 @@ def main():
     KELVIN = physconsts.KELVIN
     UM = units.UM
     # load configuration file
-    config = json.load(open("config.json", "r"))
+    with open("config.json") as f:
+        config = json.load(f)
     working_dir = config["Working directory"]
     T_C = config["T (C)"]
     element = config["Element"]
