@@ -14,6 +14,7 @@ ylabel = config["ylabel"]
 time_unit_name = config["Time unit"]
 time_column_name = "Time (" + time_unit_name + ")"
 bestfit_time = config["Bestfit time"]
+otherplots = config["Other plots"]
 plot1_time = config["Plot1 time"]
 plot2_time = config["Plot2 time"]
 plot3_time = config["Plot3 time"]
@@ -61,20 +62,23 @@ ax[1].plot(
     label="Bestfit " + str(round(bestfit_time)) + " " + time_unit_name
     )
 
-ax[1].plot(
-    preprocessed_distance_um, plot1_ppm, "-", c="#4F1167",
-    label=str(round(plot1_time)) + " " + time_unit_name
-    )
+if otherplots == "True":
+    ax[1].plot(
+        preprocessed_distance_um, plot1_ppm, "-", c="#4F1167",
+        label=str(round(plot1_time)) + " " + time_unit_name
+        )
 
-ax[1].plot(
-    preprocessed_distance_um, plot2_ppm, "-", c="#01B085",
-    label=str(round(plot2_time)) + " " + time_unit_name
-    )
+    ax[1].plot(
+        preprocessed_distance_um, plot2_ppm, "-", c="#01B085",
+        label=str(round(plot2_time)) + " " + time_unit_name
+        )
 
-ax[1].plot(
-    preprocessed_distance_um, plot3_ppm, "-", c="#FFE529",
-    label=str(round(plot3_time)) + " " + time_unit_name
-    )
+    ax[1].plot(
+        preprocessed_distance_um, plot3_ppm, "-", c="#FFE529",
+        label=str(round(plot3_time)) + " " + time_unit_name
+        )
+elif otherplots == "False":
+    pass
 
 ax[1].set_xlabel(xlabel)
 ax[1].set_ylabel(ylabel)
