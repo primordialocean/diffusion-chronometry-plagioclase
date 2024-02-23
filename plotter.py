@@ -13,6 +13,7 @@ xlabel = config["xlabel"]
 ylabel = config["ylabel"]
 time_unit_name = config["Time unit"]
 time_column_name = "Time (" + time_unit_name + ")"
+bestfit_time = config["Bestfit time"]
 plot1_time = config["Plot1 time"]
 plot2_time = config["Plot2 time"]
 plot3_time = config["Plot3 time"]
@@ -20,6 +21,7 @@ imgfmt = config["Image format"]
 imgres_dpi = config["Image resolution (dpi)"]
 
 df_summary = pd.read_csv(working_dir + "/summary.csv", header=0)
+bestfit_index = (df_summary[time_column_name] - bestfit_time).abs().idxmin()
 plot1_index = (df_summary[time_column_name] - plot1_time).abs().idxmin()
 plot2_index = (df_summary[time_column_name] - plot2_time).abs().idxmin()
 plot3_index = (df_summary[time_column_name] - plot3_time).abs().idxmin()
@@ -38,6 +40,7 @@ equilibrium_ppm = df_preprocessed["Equilibrium "+ element + " (ppm)"].to_numpy()
 
 # load modelling results
 df_model = pd.read_csv(working_dir + "/result.csv", header=0)
+bestfit_ppm = df_model.iloc[:, bestfit_index].to_numpy()
 plot1_ppm = df_model.iloc[:, plot1_index].to_numpy()
 plot2_ppm = df_model.iloc[:, plot2_index].to_numpy()
 plot3_ppm = df_model.iloc[:, plot3_index].to_numpy()
@@ -52,6 +55,11 @@ ax[0].set_ylim(*ylim_An)
 ax[1].plot(measured_distance_um, measured_ppm, "o", c="w", mec="k")
 ax[1].plot(preprocessed_distance_um, initial_ppm, "--", c="k", label="Initial")
 ax[1].plot(preprocessed_distance_um, equilibrium_ppm, "-", c="k", label="Equilibrium")
+
+ax[1].plot(
+    preprocessed_distance_um, bestfit_ppm, "-", c="r",
+    label="Bestfit " + str(round(bestfit_time)) + " " + time_unit_name
+    )
 
 ax[1].plot(
     preprocessed_distance_um, plot1_ppm, "-", c="#4F1167",

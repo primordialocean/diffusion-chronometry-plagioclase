@@ -16,8 +16,10 @@ def fitting(measured, modelled):
 units = Units()
 TIME_UNITS = units.TIME_UNITS
 
+# load configfile
 with open("config.json") as f:
     config = json.load(f)
+
 element = config["Element"]
 time_unit_name = config["Time unit"]
 time_column_name = "Time (" + time_unit_name + ")"
@@ -49,6 +51,7 @@ bestfit_time = df[time_column_name][bestfit_index]
 
 print("Bestfit time: " + str(bestfit_time) + " " + time_unit_name)
 
+# visualise fitting results
 fig, ax = plt.subplots(figsize=(5, 3))
 ax.plot(df[time_column_name], df["Residual"], "-", c="k")
 ax.axvline(x=bestfit_time, c="r")
@@ -58,3 +61,10 @@ ax.set_title(str(int(bestfit_time)) + " " + time_unit_name)
 ax.set_xlabel("Time (" + time_unit_name + ")")
 ax.set_ylabel("$\Sigma{\sqrt{(c_\mathrm{model}-c_\mathrm{measured})^2}}$")
 fig.savefig(working_dir + "/residual." + imgfmt, dpi=imgres_dpi, bbox_inches="tight")
+
+# export bestfit time to config.json
+config["Bestfit time"] = bestfit_time
+update_config = json.dumps(config, indent=4)
+
+with open("config.json", "w") as f:
+    f.write(update_config)
