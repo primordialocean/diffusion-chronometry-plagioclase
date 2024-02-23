@@ -23,6 +23,7 @@ melt_SiO2_wt = config["melt SiO2 (wt%)"]
 T_C = config["T (C)"]
 T_K = T_C + KELVIN
 imgfmt = config["Image format"]
+imgres_dpi = config["Image resolution (dpi)"]
 
 class PartitionCoefficient(PhysicalConstant):
     def __init__(self):
@@ -74,4 +75,4 @@ ax.set_xlim(0, 1)
 ax.set_ylim(-60, -10)
 ax.set_xlabel("$X_\mathrm{An}$")
 ax.set_ylabel("$RT\ln{K_D}$ (kJ mol$^{-1}$)")
-fig.savefig(working_dir +  "/pc." + imgfmt, dpi=300, bbox_inches="tight")
+fig.savefig(working_dir +  "/pc." + imgfmt, dpi=imgres_dpi, bbox_inches="tight")

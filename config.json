@@ -3,9 +3,9 @@
     "T (C)": 795,
     "melt SiO2 (wt%)": 60,
     "Element": "Mg",
-    "Partition coefficient": "Nielsen2017",
+    "Partition coefficient": "Mutch2022",
     "Diffusion coefficient": "VanOrman2014",
-    "A (J)": -10000,
+    "A (J)": 16900,
     "Boundary condition": "Neumann",
     "distance step (um)": 5,
     "Time unit": "y",
@@ -18,5 +18,6 @@
     "ylim model": [0, 240],
     "xlabel": "Distance (\u03bcm)",
     "ylabel": "Mg (ppm)",
-    "Image format": "jpg"
+    "Image format": "jpg",
+    "Image resolution (dpi)": 150
 }

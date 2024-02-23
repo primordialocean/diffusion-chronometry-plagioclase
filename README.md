@@ -82,6 +82,7 @@ The setting parameters are consolidated in the `config.json`.
 - `ylabel`: Label of y-axis.
 - `Bestfit index`: Index of bestfit results by using `fitting.py`.
 - `Image format`: Format of output images (e.g. `"jpg"`, `"tif"`).
+- `"Image resolution (dpi)"`: Resolution of output images as dpi.
 
 ## References
 - Andersen, L., Singer, S., Costa, F., Fournelle, J., Herrin, S., Fabbro, N., 2018. Petrochronologic perspective on rhyolite volcano unrest at Laguna del Maule, Chile. Earth and Planetary Science Letters, 493, 57-70. https://doi.org/10.1016/j.epsl.2018.03.043

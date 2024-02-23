@@ -15,6 +15,7 @@ plot1_time = config["Plot1 time"]
 plot2_time = config["Plot2 time"]
 plot3_time = config["Plot3 time"]
 imgfmt = config["Image format"]
+imgres_dpi = config["Image resolution (dpi)"]
 
 ts_column = {
     "s": "Time (s)",
@@ -77,4 +78,4 @@ ax[1].set_ylabel(ylabel)
 ax[1].set_xlim(*xlim)
 ax[1].set_ylim(*ylim_model)
 ax[1].legend(fontsize=6)
-fig.savefig(working_dir + "/img." + imgfmt, dpi=300, bbox_inches="tight")
+fig.savefig(working_dir + "/img." + imgfmt, dpi=imgres_dpi, bbox_inches="tight")
