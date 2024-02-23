@@ -33,14 +33,11 @@ In the PowerShell command line, running `wrapper_diff.ps1` will execute the calc
 
 - `interpolation.py` linearly interpolate analysed data. To execute the calculation, the input compositional data should be analysed at equal intervals. If you only have non-equal interval data, this program should be used.
 - `preprocessor.py` calculates equilibrium composition from the rim composition and diffusion coefficient at each point.
-![pc.jpg](sample/pc.jpg)
-
 - `diffmodel.py` solves the diffusion equation using the finite-difference forward method.
 - `fitting.py` searches the best-fit time from modelling results.
+- `plotter.py` plots modelling results.
 
 ![residual.jpg](sample/residual.jpg)
-
-- `plotter.py` plots modelling results.
 
 Partition coefficient of Bindeman et al. (1998)
 
