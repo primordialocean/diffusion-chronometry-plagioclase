@@ -2,7 +2,8 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import json
 
-config = json.load(open("config.json", "r"))
+with open("config.json") as f:
+    config = json.load(f)
 working_dir = config["Working directory"]
 element = config["Element"]
 xlim = config["xlim"]
@@ -11,23 +12,20 @@ ylim_model = config["ylim model"]
 xlabel = config["xlabel"]
 ylabel = config["ylabel"]
 time_unit_name = config["Time unit"]
+time_column_name = "Time (" + time_unit_name + ")"
+bestfit_time = config["Bestfit time"]
+otherplots = config["Other plots"]
 plot1_time = config["Plot1 time"]
 plot2_time = config["Plot2 time"]
 plot3_time = config["Plot3 time"]
 imgfmt = config["Image format"]
 imgres_dpi = config["Image resolution (dpi)"]
 
-ts_column = {
-    "s": "Time (s)",
-    "d": "Time (d)",
-    "y": "Time (y)"
-    }
-t_column = ts_column[time_unit_name]
-
 df_summary = pd.read_csv(working_dir + "/summary.csv", header=0)
-plot1_index = (df_summary[t_column] - plot1_time).abs().idxmin()
-plot2_index = (df_summary[t_column] - plot2_time).abs().idxmin()
-plot3_index = (df_summary[t_column] - plot3_time).abs().idxmin()
+bestfit_index = (df_summary[time_column_name] - bestfit_time).abs().idxmin()
+plot1_index = (df_summary[time_column_name] - plot1_time).abs().idxmin()
+plot2_index = (df_summary[time_column_name] - plot2_time).abs().idxmin()
+plot3_index = (df_summary[time_column_name] - plot3_time).abs().idxmin()
 
 # load measured data
 df_measured = pd.read_csv(working_dir + "/input.csv", header=0)
@@ -43,6 +41,7 @@ equilibrium_ppm = df_preprocessed["Equilibrium "+ element + " (ppm)"].to_numpy()
 
 # load modelling results
 df_model = pd.read_csv(working_dir + "/result.csv", header=0)
+bestfit_ppm = df_model.iloc[:, bestfit_index].to_numpy()
 plot1_ppm = df_model.iloc[:, plot1_index].to_numpy()
 plot2_ppm = df_model.iloc[:, plot2_index].to_numpy()
 plot3_ppm = df_model.iloc[:, plot3_index].to_numpy()
@@ -59,19 +58,27 @@ ax[1].plot(preprocessed_distance_um, initial_ppm, "--", c="k", label="Initial")
 ax[1].plot(preprocessed_distance_um, equilibrium_ppm, "-", c="k", label="Equilibrium")
 
 ax[1].plot(
-    preprocessed_distance_um, plot1_ppm, "-", c="#4F1167",
-    label=str(round(plot1_time)) + " " + time_unit_name
+    preprocessed_distance_um, bestfit_ppm, "-", c="r",
+    label="Bestfit " + str(round(bestfit_time)) + " " + time_unit_name
     )
 
-ax[1].plot(
-    preprocessed_distance_um, plot2_ppm, "-", c="#01B085",
-    label=str(round(plot2_time)) + " " + time_unit_name
-    )
+if otherplots == "True":
+    ax[1].plot(
+        preprocessed_distance_um, plot1_ppm, "-", c="#4F1167",
+        label=str(round(plot1_time)) + " " + time_unit_name
+        )
 
-ax[1].plot(
-    preprocessed_distance_um, plot3_ppm, "-", c="#FFE529",
-    label=str(round(plot3_time)) + " " + time_unit_name
-    )
+    ax[1].plot(
+        preprocessed_distance_um, plot2_ppm, "-", c="#01B085",
+        label=str(round(plot2_time)) + " " + time_unit_name
+        )
+
+    ax[1].plot(
+        preprocessed_distance_um, plot3_ppm, "-", c="#FFE529",
+        label=str(round(plot3_time)) + " " + time_unit_name
+        )
+elif otherplots == "False":
+    pass
 
 ax[1].set_xlabel(xlabel)
 ax[1].set_ylabel(ylabel)

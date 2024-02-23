@@ -3,19 +3,31 @@
     "T (C)": 795,
     "melt SiO2 (wt%)": 60,
     "Element": "Mg",
-    "Partition coefficient": "Mutch2022",
+    "Partition coefficient model": "Empirical",
+    "Partition coefficient": "Bindeman1998",
     "Diffusion coefficient": "VanOrman2014",
-    "A (J)": 16900,
+    "A (J)": -26100,
     "Boundary condition": "Neumann",
     "distance step (um)": 5,
     "Time unit": "y",
     "Max time": 500,
+    "Bestfit time": 229.77588210360472,
+    "Other plots": "True",
     "Plot1 time": 5,
     "Plot2 time": 50,
     "Plot3 time": 500,
-    "xlim": [0,500],
-    "ylim An": [20, 45],
-    "ylim model": [0, 240],
+    "xlim": [
+        0,
+        500
+    ],
+    "ylim An": [
+        20,
+        45
+    ],
+    "ylim model": [
+        0,
+        240
+    ],
     "xlabel": "Distance (\u03bcm)",
     "ylabel": "Mg (ppm)",
     "Image format": "jpg",

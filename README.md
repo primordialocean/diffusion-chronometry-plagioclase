@@ -17,6 +17,8 @@ This repository contains the following partition coefficients and diffusion coef
 - Mg, Partition coefficient: Mutch et al. (2022), Diffusion coefficient: LaTourrette and Wasserburg (1998); Costa et al. (2003); Van Orman et al. (2013)
 - Sr, Partition coefficient: Bindeman et al. (1998), Diffusion coefficient: Giletti and Casserly (1994)
 
+Solving diffusion equation requires the estimation of thermodynamic parameter ($A$ in equation 7 of Costa et al. (2003)). If you apply the Mg partition coefficient of Mutch et al. (2022) to numerical modelling, slope of partition coefficient that is described as $RT\ln{K_D} = AX_\mathrm{An} + B$ from analysed An content and melt SiO2 content.
+
 ## Rerequistes
 The repository relies on the following third-party libraries:
 - `Numpy`: carrying out numerical calculations
@@ -27,18 +29,15 @@ The repository relies on the following third-party libraries:
 The easiest way to install third-party libraries is by running `pip install --user $(library_name)`.
 
 ## Usage
-- (optional) `interpolation.py` linearly interpolate analysed data. To execute the calculation, the input compositional data should be analysed at equal intervals. If you only have non-equal interval data, this program should be used.
+In the PowerShell command line, running `wrapper_diff.ps1` will execute the calculation.
+
+- `interpolation.py` linearly interpolate analysed data. To execute the calculation, the input compositional data should be analysed at equal intervals. If you only have non-equal interval data, this program should be used.
 - `preprocessor.py` calculates equilibrium composition from the rim composition and diffusion coefficient at each point.
-- (optional) `calcparam.py` estimate thermodynamic parameter ($A$ in equation 7 of Costa et al. (2003)). If you apply the Mg partition coefficient of Mutch et al. (2022) to numerical modelling, slope of partition coefficient that is described as $RT\ln{K_D} = AX_\mathrm{An} + B$ from analysed An content and melt SiO2 content.
-
-![pc.jpg](sample/pc.jpg)
-
 - `diffmodel.py` solves the diffusion equation using the finite-difference forward method.
 - `fitting.py` searches the best-fit time from modelling results.
+- `plotter.py` plots modelling results.
 
 ![residual.jpg](sample/residual.jpg)
-
-- `plotter.py` plots modelling results.
 
 Partition coefficient of Bindeman et al. (1998)
 
@@ -61,6 +60,7 @@ The setting parameters are consolidated in the `config.json`.
 - `T (C)`: Surrounding melt temperature as degree Celsius
 - `melt SiO2 (wt%)`: (optional) Surrounding melt SiO2 content (wt%). This parameter is only required for the partition coefficient of Mutch et al. (2022).
 - `Element`: Element `"Mg"`, `"Sr"`, `"Ti"`, `"Ba"`.
+- `Partition coefficient model`: `"Mutch"` (Mutch et al., 2022) or `"Empirical"` (Drake et al., 1972; Blundy & Wood, 1991; Bindeman et al., 1998; Nielsen et al., 2017)
 - `Partition coefficient`:
   - `"Mutch2022"` (Mutch et al., 2022): `"Mg"`, `"Ti"`, `"Sr"`, `"Ba"`
   - `"Nielsen2017"` (Nielsen et al., 2017): `"Mg"`
