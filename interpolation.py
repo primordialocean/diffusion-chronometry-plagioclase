@@ -9,7 +9,7 @@ element = config["Element"]
 dx_um = config["distance step (um)"]
 working_dir = config["Working directory"]
 
-df = pd.read_csv(working_dir + "/input.csv")
+df = pd.read_excel(working_dir + "/input.xlsx")
 
 distance_um = df["Distance (um)"].to_numpy()
 An_mol = df["An (mol%)"].to_numpy()

@@ -28,7 +28,7 @@ plot2_index = (df_summary[time_column_name] - plot2_time).abs().idxmin()
 plot3_index = (df_summary[time_column_name] - plot3_time).abs().idxmin()
 
 # load measured data
-df_measured = pd.read_csv(working_dir + "/input.csv", header=0)
+df_measured = pd.read_excel(working_dir + "/input.xlsx")
 measured_distance_um = df_measured["Distance (um)"].to_numpy()
 measured_ppm = df_measured[element + " (ppm)"].to_numpy()
 measured_An_mol = df_measured["An (mol%)"].to_numpy()
@@ -38,6 +38,7 @@ df_preprocessed = pd.read_csv(working_dir + "/preprocessed.csv", header=0)
 preprocessed_distance_um = df_preprocessed["Distance (um)"].to_numpy()
 initial_ppm = df_preprocessed["Initial " + element + " (ppm)"].to_numpy()
 equilibrium_ppm = df_preprocessed["Equilibrium "+ element + " (ppm)"].to_numpy()
+preprocessed_An_mol = df_preprocessed["An (mol%)"].to_numpy()
 
 # load modelling results
 df_model = pd.read_csv(working_dir + "/result.csv", header=0)
@@ -50,6 +51,7 @@ plot3_ppm = df_model.iloc[:, plot3_index].to_numpy()
 fig, ax = plt.subplots(2, 1, figsize=(5, 8), sharex=True)
 fig.subplots_adjust(hspace=0.07)
 ax[0].plot(measured_distance_um, measured_An_mol, "o", c="w", mec="k")
+ax[0].plot(preprocessed_distance_um, preprocessed_An_mol, "-", c="k")
 ax[0].set_ylabel("An (mol%)")
 ax[0].set_ylim(*ylim_An)
 
