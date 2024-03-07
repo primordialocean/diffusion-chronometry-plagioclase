@@ -1,32 +1,34 @@
 {
-    "Working directory": "sample",
-    "T (C)": 795,
-    "melt SiO2 (wt%)": 60,
+    "Working directory": "OKP_16082606-1_pl-22_1",
+    "T (C)": 1025,
+    "melt SiO2 (wt%)": 63,
+    "Smoothing": "True",
+    "Filter sigma": 1,
     "Element": "Mg",
-    "Partition coefficient model": "Empirical",
-    "Partition coefficient": "Bindeman1998",
+    "Partition coefficient model": "Mutch2022",
+    "Partition coefficient": "Mutch2022",
     "Diffusion coefficient": "VanOrman2014",
-    "A (J)": -26100,
+    "A (J)": -20299.999999999993,
     "Boundary condition": "Neumann",
     "distance step (um)": 5,
     "Time unit": "y",
-    "Max time": 500,
-    "Bestfit time": 229.77588210360472,
+    "Max time": 100,
+    "Bestfit time": 99.9907367040325,
     "Other plots": "True",
-    "Plot1 time": 5,
-    "Plot2 time": 50,
-    "Plot3 time": 500,
+    "Plot1 time": 1,
+    "Plot2 time": 10,
+    "Plot3 time": 100,
     "xlim": [
         0,
-        500
+        420
     ],
     "ylim An": [
-        20,
-        45
+        55,
+        95
     ],
     "ylim model": [
-        0,
-        240
+        200,
+        1200
     ],
     "xlabel": "Distance (\u03bcm)",
     "ylabel": "Mg (ppm)",

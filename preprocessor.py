@@ -1,6 +1,7 @@
 import numpy as np
 import pandas as pd
 import json
+from scipy.ndimage import gaussian_filter
 from constants import PhysicalConstants, Units
 from partitioncoef import PartitionCoefficients
 from diffusioncoef import DiffusionCoefficients
@@ -27,12 +28,18 @@ def main():
     T_K = T_C + KELVIN
     melt_SiO2_wt = config["melt SiO2 (wt%)"]
     maxtime_s = config["Max time"] * YEAR
+    key_smoothing = config["Smoothing"]
+    filter_sigma = config["Filter sigma"]
     
     # load interpolated initial and measured datasets
     df = pd.read_csv(working_dir + "/interpolated.csv")
     distance_um = df["Distance (um)"].to_numpy()
     distance_m = distance_um * UM
     An_mol = df["An (mol%)"].to_numpy()
+    if key_smoothing == "True":
+        An_mol = gaussian_filter(An_mol, filter_sigma)
+    else:
+        pass
     X_An = 0.01 * An_mol
     measured_ppm = df[element + " (ppm)"].to_numpy()
     initial_ppm = df["Initial " + element + " (ppm)"].to_numpy()
