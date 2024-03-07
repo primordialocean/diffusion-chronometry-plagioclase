@@ -56,11 +56,13 @@ Sample datasets were obtained from Supplementary information Figure A9 of Anders
 ## About `config.json`
 The setting parameters are consolidated in the `config.json`.
 
-- `Working directory`: Directory name for saving a input file (`input.csv`), temporary files (e.g. `interpolated.csv`), and output images (e.g. `img.jpg`).
+- `Working directory`: Directory name for saving a input file (e.g., `input.xlsx`), temporary files (e.g. `interpolated.csv`), and output images (e.g. `img.jpg`).
 - `T (C)`: Surrounding melt temperature as degree Celsius
 - `melt SiO2 (wt%)`: (optional) Surrounding melt SiO2 content (wt%). This parameter is only required for the partition coefficient of Mutch et al. (2022).
+- `Smoothing`: switch enable (`"True"`) or disable (`"False"`) Gaussian filter apply to An content.
+- `Filter sigma`: set standard deviation of Gaussian filter.
 - `Element`: Element `"Mg"`, `"Sr"`, `"Ti"`, `"Ba"`.
-- `Partition coefficient model`: `"Mutch"` (Mutch et al., 2022) or `"Empirical"` (Drake et al., 1972; Blundy & Wood, 1991; Bindeman et al., 1998; Nielsen et al., 2017)
+- `Partition coefficient model`: `"Mutch2022"` (Mutch et al., 2022) or `"Empirical"` (Drake et al., 1972; Blundy & Wood, 1991; Bindeman et al., 1998; Nielsen et al., 2017)
 - `Partition coefficient`:
   - `"Mutch2022"` (Mutch et al., 2022): `"Mg"`, `"Ti"`, `"Sr"`, `"Ba"`
   - `"Nielsen2017"` (Nielsen et al., 2017): `"Mg"`
@@ -75,7 +77,7 @@ The setting parameters are consolidated in the `config.json`.
 - `A (J)`: Slope of RTlnKD vs XAn. This parameter is only required for the partition coefficient of Mutch et al. (2022).
 - `distance step (um)`: Interval of distance for interpolation.
 - `Max time`: maximum time at set time unit
-- `Boundary condition`: `"Neuman"` (du/dx = 0) or `"Dirichlet"` (fix)
+- `Boundary condition`: `"Neumann"` (du/dx = 0) or `"Dirichlet"` (fix)
 - `xlim`: `[minimum, maximum]`
 - `ylim`: `[minimum, maximum]`
 - `xlabel`: Label of x-axis.
