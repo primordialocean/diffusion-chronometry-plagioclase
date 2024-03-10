@@ -63,6 +63,8 @@ def main():
         D = dc.costa2003(T_K, X_An)
     elif D_ref == "Zellmer1999":
         D = dc.zellmer1999(T_K, X_An)
+    elif D_ref == "Cherniak2020":
+        D = dc.cherniak2020(T_K, X_An)
 
     df = pd.DataFrame(
             {
