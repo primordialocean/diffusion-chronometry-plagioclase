@@ -49,13 +49,18 @@ plot3_ppm = df_model.iloc[:, plot3_index].to_numpy()
 
 # plot data
 fig, ax = plt.subplots(2, 1, figsize=(5, 8), sharex=True)
-fig.subplots_adjust(hspace=0.07)
-ax[0].plot(measured_distance_um, measured_An_mol, "o", c="w", mec="k")
-ax[0].plot(preprocessed_distance_um, preprocessed_An_mol, "-", c="k")
+fig.subplots_adjust(hspace=0.08)
+ax[0].plot(measured_distance_um, measured_An_mol, "o", c="w", mec="k", label="Observed")
+ax[0].plot(preprocessed_distance_um, preprocessed_An_mol, "-", c="k", label="Interpolated")
 ax[0].set_ylabel("An (mol%)")
 ax[0].set_ylim(*ylim_An)
+ax[0].legend(
+    edgecolor="w",
+    loc="center left",
+    bbox_to_anchor=(1, 0.5), fontsize=9
+    ).set_alpha(1)
 
-ax[1].plot(measured_distance_um, measured_ppm, "o", c="w", mec="k")
+ax[1].plot(measured_distance_um, measured_ppm, "o", c="w", mec="k", label="Observed")
 ax[1].plot(preprocessed_distance_um, initial_ppm, "--", c="k", label="Initial")
 ax[1].plot(preprocessed_distance_um, equilibrium_ppm, "-", c="k", label="Equilibrium")
 
@@ -86,5 +91,10 @@ ax[1].set_xlabel(xlabel)
 ax[1].set_ylabel(ylabel)
 ax[1].set_xlim(*xlim)
 ax[1].set_ylim(*ylim_model)
-ax[1].legend(fontsize=6)
+ax[1].legend(
+    edgecolor="w",
+    loc="center left",
+    bbox_to_anchor=(1, 0.5), fontsize=9
+    ).set_alpha(1)
+#fig.legend()
 fig.savefig(working_dir + "/img." + imgfmt, dpi=imgres_dpi, bbox_inches="tight")
