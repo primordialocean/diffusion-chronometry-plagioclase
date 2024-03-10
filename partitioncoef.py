@@ -35,7 +35,6 @@ class PartitionCoefficients(PhysicalConstants):
         ].squeeze().to_dict()
         A_i, B_i = params_i["A"], params_i["B"]
         RTlnK_i  = A_i * X_An + B_i
-        print(A_i, B_i)
         K_i = np.exp(RTlnK_i/(self.R_CONST * T_K))
         return A_i, K_i
 

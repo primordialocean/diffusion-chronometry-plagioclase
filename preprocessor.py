@@ -53,7 +53,8 @@ def main():
         A_i, K_i = pc.empirical_model(K_ref, element, T_K, X_An)
     
     # estimate melt Mg from rimward composition
-    melt_ppm = measured_ppm[0] / K_i[0]
+    #melt_ppm = measured_ppm[0] / K_i[0]
+    melt_ppm = initial_ppm[0] / K_i[0]
     equilibrium_ppm = melt_ppm * K_i
 
     dc = DiffusionCoefficients()
