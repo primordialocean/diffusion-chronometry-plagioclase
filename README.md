@@ -41,15 +41,7 @@ In the PowerShell command line, running `wrapper_diff.ps1` will execute the calc
 
 Partition coefficient of Bindeman et al. (1998)
 
-![img.jpg](sample/img_bindeman1998.jpg)
-
-Partition coefficient of Nielsen et al. (2017)
-
-![img.jpg](sample/img_nielsen2017.jpg)
-
-Partition coefficient of Mutch et al. (2022)
-
-![img.jpg](sample/img_mutch2022.jpg)
+![img.jpg](sample/img.jpg)
 
 Sample datasets were obtained from Supplementary information Figure A9 of Andersen et al. (2018).
 
