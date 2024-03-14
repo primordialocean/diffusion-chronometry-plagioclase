@@ -6,8 +6,7 @@ with open("config.json") as f:
     config = json.load(f)
 working_dir = config["Working directory"]
 element = config["Element"]
-element_unit = config["Element unit"]
-content_unit = element + " (" + element_unit + ")"
+content = config["Content"]
 xlim = config["xlim"]
 ylim_An = config["ylim An"]
 ylim_model = config["ylim model"]
@@ -30,16 +29,16 @@ plot2_index = (df_summary[time_column_name] - plot2_time).abs().idxmin()
 plot3_index = (df_summary[time_column_name] - plot3_time).abs().idxmin()
 
 # load measured data
-df_measured = pd.read_excel(working_dir + "/input.xlsx")
+df_measured = pd.read_csv(working_dir + "/input.csv")
 measured_distance_um = df_measured["Distance (um)"].to_numpy()
-measured_content = df_measured[content_unit].to_numpy()
+measured_content = df_measured[content].to_numpy()
 measured_An_mol = df_measured["An (mol%)"].to_numpy()
 
 # load preprocessed data
 df_preprocessed = pd.read_csv(working_dir + "/preprocessed.csv", header=0)
 preprocessed_distance_um = df_preprocessed["Distance (um)"].to_numpy()
-initial_content = df_preprocessed["Initial " + content_unit].to_numpy()
-equilibrium_content = df_preprocessed["Equilibrium "+ content_unit].to_numpy()
+initial_content = df_preprocessed["Initial " + content].to_numpy()
+equilibrium_content = df_preprocessed["Equilibrium "+ content].to_numpy()
 preprocessed_An_mol = df_preprocessed["An (mol%)"].to_numpy()
 
 # load modelling results
@@ -91,7 +90,7 @@ elif otherplots == "False":
 
 ax[1].set_xlabel(xlabel)
 ax[1].set_ylabel(ylabel)
-ax[1].set_xlim(*xlim)
+#ax[1].set_xlim(*xlim)
 ax[1].set_ylim(*ylim_model)
 ax[1].legend(
     edgecolor="w",

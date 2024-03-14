@@ -1,7 +1,8 @@
 {
-    "Working directory": "zao_okp/OKP_4-2-3_pl-11_1",
+    "Working directory": "zao_okp/OKP_16082606-1_pl-07_1",
     "T (C)": 1025,
     "melt SiO2 (wt%)": 63,
+    "melt MgO (wt%)": 2.9284,
     "Initial estimation": {
         "T (C)": [
             5.235742774,
@@ -18,18 +19,18 @@
     },
     "Smoothing": "True",
     "Filter sigma": 1,
-    "Element": "MgO",
-    "Element unit": "wt%",
+    "Element": "Mg",
+    "Content": "MgO (wt%)",
     "Partition coefficient model": "Mutch2022",
     "Partition coefficient": "Mutch2022",
     "Diffusion coefficient": "VanOrman2014",
-    "A (J)": -20299.99999999998,
+    "A (J)": -20300.000000000004,
     "Boundary condition": "Neumann",
     "distance step (um)": 5,
     "Time unit": "y",
-    "Max time": 200,
-    "Bestfit time": 133.03501122726092,
-    "Other plots": "False",
+    "Max time": 300,
+    "Bestfit time": 299.98891986947103,
+    "Other plots": "True",
     "Plot1 time": 1,
     "Plot2 time": 5,
     "Plot3 time": 50,
@@ -43,7 +44,7 @@
     ],
     "ylim model": [
         0,
-        0.2
+        0.3
     ],
     "xlabel": "Distance (\u03bcm)",
     "ylabel": "MgO (wt%)",

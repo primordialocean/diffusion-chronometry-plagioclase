@@ -8,6 +8,7 @@ if (Test-Path $venvPath) {
 } else {
     Write-Host "Virtual environment not found."
 }
+python calcinitial.py
 python interpolation.py
 python preprocessor.py
 python diffmodel.py

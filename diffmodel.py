@@ -106,8 +106,7 @@ def main():
     T_C = config["T (C)"]
     T_K = T_C + KELVIN
     element = config["Element"]
-    element_unit = config["Element unit"]
-    content_unit = element + " (" + element_unit + ")"
+    content = config["Content"]
     time_unit_name = config["Time unit"]
 
     time_unit = TIME_UNITS[time_unit_name]
@@ -120,7 +119,7 @@ def main():
     x_m = df["Distance (m)"].to_numpy()
     X_An = df["XAn"].to_numpy()
     D = df["D (m2/s)"].to_numpy()
-    u_n = df["Initial " + content_unit].to_numpy()
+    u_n = df["Initial " + content].to_numpy()
     dx_m = x_m[1] - x_m[0]
     nx = x_m.shape[0]
     dt_s = 0.4 * (dx_m ** 2) / np.max(D)

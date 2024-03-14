@@ -17,6 +17,7 @@
 !constants.py
 !partitioncoef.py
 !diffusioncoef.py
+!calcinitial.py
 !interpolation.py
 !preprocessor.py
 !calcparam.py

@@ -21,14 +21,14 @@ def main():
         config = json.load(f)
     working_dir = config["Working directory"]
     element = config["Element"]
-    element_unit = config["Element unit"]
-    content_unit = element + " (" + element_unit + ")"
+    content = config["Content"]
     K_model = config["Partition coefficient model"]
     K_ref = config["Partition coefficient"]
     D_ref = config["Diffusion coefficient"]
     T_C = config["T (C)"]
     T_K = T_C + KELVIN
     melt_SiO2_wt = config["melt SiO2 (wt%)"]
+    melt_content = config["melt " + content]
     maxtime_s = config["Max time"] * YEAR
     key_smoothing = config["Smoothing"]
     filter_sigma = config["Filter sigma"]
@@ -43,8 +43,8 @@ def main():
     else:
         pass
     X_An = 0.01 * An_mol
-    measured_content = df[content_unit].to_numpy()
-    initial_content = df["Initial " + content_unit].to_numpy()
+    measured_content = df[content].to_numpy()
+    initial_content = df["Initial " + content].to_numpy()
 
     # import partition coefficiation class
     pc = PartitionCoefficients()
@@ -55,8 +55,8 @@ def main():
         A_i, K_i = pc.empirical_model(K_ref, element, T_K, X_An)
     
     # estimate melt Mg from rimward composition
-    #melt_content = measured_content[0] / K_i[0]
-    melt_content = initial_content[0] / K_i[0]
+    # melt_content = measured_content[0] / K_i[0]
+    # melt_content = initial_content[0] / K_i[0]
     equilibrium_content = melt_content * K_i
 
     dc = DiffusionCoefficients()
@@ -75,10 +75,10 @@ def main():
                 "Distance (m)": distance_m,
                 "An (mol%)": An_mol,
                 "XAn": X_An,
-                content_unit: measured_content,
-                "Initial " + content_unit: initial_content,
+                content: measured_content,
+                "Initial " + content: initial_content,
                 "K_D": K_i,
-                "Equilibrium "+ content_unit: equilibrium_content,
+                "Equilibrium "+ content: equilibrium_content,
                 "D (m2/s)": D
             }
         )
