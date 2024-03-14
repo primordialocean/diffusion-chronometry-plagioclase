@@ -1,5 +1,5 @@
 {
-    "Working directory": "zao_okp/OKP_4-2-3_pl-11_1",
+    "Working directory": "zao_okp/OKP_16082606-1_pl-22_1",
     "T (C)": 1025,
     "melt SiO2 (wt%)": 63,
     "Initial estimation": {
@@ -7,9 +7,9 @@
             5.235742774,
             643.5474075
         ],
-        "melt MgO (wt%)": [
-            0.169072241,
-            -9.126625199
+        "melt element (ppm)": [
+            1019.467853,
+            -55031.51174
         ],
         "melt SiO2 (wt%)": [
             -0.65994242,
@@ -18,17 +18,16 @@
     },
     "Smoothing": "True",
     "Filter sigma": 1,
-    "Element": "MgO",
-    "Element unit": "wt%",
+    "Element": "Mg",
     "Partition coefficient model": "Mutch2022",
     "Partition coefficient": "Mutch2022",
     "Diffusion coefficient": "VanOrman2014",
-    "A (J)": -20299.99999999998,
+    "A (J)": -20299.999999999993,
     "Boundary condition": "Neumann",
     "distance step (um)": 5,
     "Time unit": "y",
     "Max time": 200,
-    "Bestfit time": 133.03501122726092,
+    "Bestfit time": 139.93280742274712,
     "Other plots": "False",
     "Plot1 time": 1,
     "Plot2 time": 5,
@@ -43,10 +42,10 @@
     ],
     "ylim model": [
         0,
-        0.2
+        1550
     ],
     "xlabel": "Distance (\u03bcm)",
-    "ylabel": "MgO (wt%)",
-    "Image format": "tif",
-    "Image resolution (dpi)": 600
+    "ylabel": "Mg (ppm)",
+    "Image format": "jpg",
+    "Image resolution (dpi)": 150
 }

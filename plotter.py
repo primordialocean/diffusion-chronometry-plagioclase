@@ -6,6 +6,8 @@ with open("config.json") as f:
     config = json.load(f)
 working_dir = config["Working directory"]
 element = config["Element"]
+element_unit = config["Element unit"]
+content_unit = element + " (" + element_unit + ")"
 xlim = config["xlim"]
 ylim_An = config["ylim An"]
 ylim_model = config["ylim model"]
@@ -30,22 +32,22 @@ plot3_index = (df_summary[time_column_name] - plot3_time).abs().idxmin()
 # load measured data
 df_measured = pd.read_excel(working_dir + "/input.xlsx")
 measured_distance_um = df_measured["Distance (um)"].to_numpy()
-measured_ppm = df_measured[element + " (ppm)"].to_numpy()
+measured_content = df_measured[content_unit].to_numpy()
 measured_An_mol = df_measured["An (mol%)"].to_numpy()
 
 # load preprocessed data
 df_preprocessed = pd.read_csv(working_dir + "/preprocessed.csv", header=0)
 preprocessed_distance_um = df_preprocessed["Distance (um)"].to_numpy()
-initial_ppm = df_preprocessed["Initial " + element + " (ppm)"].to_numpy()
-equilibrium_ppm = df_preprocessed["Equilibrium "+ element + " (ppm)"].to_numpy()
+initial_content = df_preprocessed["Initial " + content_unit].to_numpy()
+equilibrium_content = df_preprocessed["Equilibrium "+ content_unit].to_numpy()
 preprocessed_An_mol = df_preprocessed["An (mol%)"].to_numpy()
 
 # load modelling results
 df_model = pd.read_csv(working_dir + "/result.csv", header=0)
-bestfit_ppm = df_model.iloc[:, bestfit_index].to_numpy()
-plot1_ppm = df_model.iloc[:, plot1_index].to_numpy()
-plot2_ppm = df_model.iloc[:, plot2_index].to_numpy()
-plot3_ppm = df_model.iloc[:, plot3_index].to_numpy()
+bestfit_content = df_model.iloc[:, bestfit_index].to_numpy()
+plot1_content = df_model.iloc[:, plot1_index].to_numpy()
+plot2_content = df_model.iloc[:, plot2_index].to_numpy()
+plot3_content = df_model.iloc[:, plot3_index].to_numpy()
 
 # plot data
 fig, ax = plt.subplots(2, 1, figsize=(5, 8), sharex=True)
@@ -60,28 +62,28 @@ ax[0].legend(
     bbox_to_anchor=(1, 0.5), fontsize=9
     ).set_alpha(1)
 
-ax[1].plot(measured_distance_um, measured_ppm, "o", c="w", mec="k", label="Observed")
-ax[1].plot(preprocessed_distance_um, initial_ppm, "--", c="k", label="Initial")
-ax[1].plot(preprocessed_distance_um, equilibrium_ppm, "-", c="k", label="Equilibrium")
+ax[1].plot(measured_distance_um, measured_content, "o", c="w", mec="k", label="Observed")
+ax[1].plot(preprocessed_distance_um, initial_content, "--", c="k", label="Initial")
+ax[1].plot(preprocessed_distance_um, equilibrium_content, "-", c="k", label="Equilibrium")
 
 ax[1].plot(
-    preprocessed_distance_um, bestfit_ppm, "-", c="r",
+    preprocessed_distance_um, bestfit_content, "-", c="r",
     label="Bestfit " + str(round(bestfit_time)) + " " + time_unit_name
     )
 
 if otherplots == "True":
     ax[1].plot(
-        preprocessed_distance_um, plot1_ppm, "-", c="#4F1167",
+        preprocessed_distance_um, plot1_content, "-", c="#4F1167",
         label=str(round(plot1_time)) + " " + time_unit_name
         )
 
     ax[1].plot(
-        preprocessed_distance_um, plot2_ppm, "-", c="#01B085",
+        preprocessed_distance_um, plot2_content, "-", c="#01B085",
         label=str(round(plot2_time)) + " " + time_unit_name
         )
 
     ax[1].plot(
-        preprocessed_distance_um, plot3_ppm, "-", c="#FFE529",
+        preprocessed_distance_um, plot3_content, "-", c="#FFE529",
         label=str(round(plot3_time)) + " " + time_unit_name
         )
 elif otherplots == "False":

@@ -21,6 +21,8 @@ def main():
         config = json.load(f)
     working_dir = config["Working directory"]
     element = config["Element"]
+    element_unit = config["Element unit"]
+    content_unit = element + " (" + element_unit + ")"
     K_model = config["Partition coefficient model"]
     K_ref = config["Partition coefficient"]
     D_ref = config["Diffusion coefficient"]
@@ -41,8 +43,8 @@ def main():
     else:
         pass
     X_An = 0.01 * An_mol
-    measured_ppm = df[element + " (ppm)"].to_numpy()
-    initial_ppm = df["Initial " + element + " (ppm)"].to_numpy()
+    measured_content = df[content_unit].to_numpy()
+    initial_content = df["Initial " + content_unit].to_numpy()
 
     # import partition coefficiation class
     pc = PartitionCoefficients()
@@ -53,9 +55,9 @@ def main():
         A_i, K_i = pc.empirical_model(K_ref, element, T_K, X_An)
     
     # estimate melt Mg from rimward composition
-    #melt_ppm = measured_ppm[0] / K_i[0]
-    melt_ppm = initial_ppm[0] / K_i[0]
-    equilibrium_ppm = melt_ppm * K_i
+    #melt_content = measured_content[0] / K_i[0]
+    melt_content = initial_content[0] / K_i[0]
+    equilibrium_content = melt_content * K_i
 
     dc = DiffusionCoefficients()
     if D_ref == "VanOrman2014":
@@ -73,11 +75,11 @@ def main():
                 "Distance (m)": distance_m,
                 "An (mol%)": An_mol,
                 "XAn": X_An,
-                element + " (ppm)": measured_ppm,
-                "Initial " + element + " (ppm)": initial_ppm,
+                content_unit: measured_content,
+                "Initial " + content_unit: initial_content,
                 "K_D": K_i,
-                "Equilibrium "+ element + " (ppm)": equilibrium_ppm,
-                "D": D
+                "Equilibrium "+ content_unit: equilibrium_content,
+                "D (m2/s)": D
             }
         )
     df.to_csv(working_dir + "/preprocessed.csv", index=False)

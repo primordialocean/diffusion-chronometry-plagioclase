@@ -21,6 +21,8 @@ with open("config.json") as f:
     config = json.load(f)
 
 element = config["Element"]
+element_unit = config["Element unit"]
+content_unit = element + " (" + element_unit + ")"
 time_unit_name = config["Time unit"]
 time_column_name = "Time (" + time_unit_name + ")"
 working_dir = config["Working directory"]
@@ -33,11 +35,11 @@ df_model = pd.read_csv(working_dir + "/result.csv").drop("Distance (m)", axis=1)
 times_s = [float(x) for x in df_model.columns.values]
 times = [time_s / TIME_UNITS[time_unit_name] for time_s in times_s]
 
-measured_ppm = df_measured[element + " (ppm)"].to_numpy()
+measured_content = df_measured[content_unit].to_numpy()
 
-arr_model_ppm = df_model.T.to_numpy()
+arr_model_content = df_model.T.to_numpy()
 
-residual, bestfit_index = fitting(measured_ppm, arr_model_ppm)
+residual, bestfit_index = fitting(measured_content, arr_model_content)
 
 pd.DataFrame(
     {
