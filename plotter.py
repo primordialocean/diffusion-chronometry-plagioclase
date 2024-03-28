@@ -7,11 +7,8 @@ with open("config.json") as f:
 working_dir = config["Working directory"]
 element = config["Element"]
 content = config["Content"]
-xlim = config["xlim"]
 ylim_An = config["ylim An"]
 ylim_model = config["ylim model"]
-xlabel = config["xlabel"]
-ylabel = config["ylabel"]
 time_unit_name = config["Time unit"]
 time_column_name = "Time (" + time_unit_name + ")"
 bestfit_time = config["Bestfit time"]
@@ -88,14 +85,12 @@ if otherplots == "True":
 elif otherplots == "False":
     pass
 
-ax[1].set_xlabel(xlabel)
-ax[1].set_ylabel(ylabel)
-#ax[1].set_xlim(*xlim)
+ax[1].set_xlabel(r"Distance ($\times 10^{-6}$ m)")
+ax[1].set_ylabel(content)
 ax[1].set_ylim(*ylim_model)
 ax[1].legend(
     edgecolor="w",
     loc="center left",
     bbox_to_anchor=(1, 0.5), fontsize=9
     ).set_alpha(1)
-#fig.legend()
 fig.savefig(working_dir + "/img." + imgfmt, dpi=imgres_dpi, bbox_inches="tight")

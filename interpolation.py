@@ -9,8 +9,15 @@ element = config["Element"]
 content = config["Content"]
 dx_um = config["distance step (um)"]
 working_dir = config["Working directory"]
+key_multistep = config["Single or multi step"]
+step_boundary = config["Step boundary"]
 
-df = pd.read_csv(working_dir + "/input.csv")
+df_raw = pd.read_csv(working_dir + "/input.csv")
+
+if key_multistep == "Multi":
+    df = df_raw[df_raw["Distance (um)"] >= step_boundary]
+elif key_multistep == "Single":
+    df = df_raw
 
 distance_um = df["Distance (um)"].to_numpy()
 An_mol = df["An (mol%)"].to_numpy()

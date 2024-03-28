@@ -28,7 +28,6 @@ def main():
     T_C = config["T (C)"]
     T_K = T_C + KELVIN
     melt_SiO2_wt = config["melt SiO2 (wt%)"]
-    melt_content = config["melt " + content]
     maxtime_s = config["Max time"] * YEAR
     key_smoothing = config["Smoothing"]
     filter_sigma = config["Filter sigma"]
@@ -55,9 +54,10 @@ def main():
         A_i, K_i = pc.empirical_model(K_ref, element, T_K, X_An)
     
     # estimate melt Mg from rimward composition
-    # melt_content = measured_content[0] / K_i[0]
+    melt_content = measured_content[0] / K_i[0]
     # melt_content = initial_content[0] / K_i[0]
     equilibrium_content = melt_content * K_i
+    initial_content[0] = equilibrium_content[0]
 
     dc = DiffusionCoefficients()
     if D_ref == "VanOrman2014":
@@ -89,7 +89,6 @@ def main():
     
     with open("config.json", "w") as f:
         f.write(update_config)
-
 
 if __name__ == "__main__":
     main()
